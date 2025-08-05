@@ -1,834 +1,2006 @@
 import * as bcrypt from 'bcrypt';
 
-interface SeedProduct {
-    description: string;
-    images: string[];
-    stock: number;
-    price: number;
-    sizes: ValidSizes[];
-    slug: string;
-    tags: string[];
-    title: string;
-    type: ValidTypes;
-    gender: 'men'|'women'|'kid'|'unisex'
-}
-
-type ValidSizes = 'XS'|'S'|'M'|'L'|'XL'|'XXL'|'XXXL';
-type ValidTypes = 'shirts'|'pants'|'hoodies'|'hats';
-
 interface SeedUser {
-    email:    string;
-    fullName: string;
-    password: string;
-    roles:     string[];
+  email: string;
+  fullName: string;
+  password: string;
+  roles: string[];
 }
 
+interface SeedContact {
+  callCode: string;
+  number: string;
+  tag: string;
+}
+
+interface SeedAddress {
+  street: string;
+  number: string;
+  location: string;
+  tag: string;
+}
+
+interface SeedImportantDate {
+  day: number;
+  month: number;
+  year: number;
+  tag: string;
+}
+
+interface SeedPeople {
+  name: string;
+  lastName: string;
+  email?: string;
+  photo?: string;
+  contacts?: SeedContact[];
+  addresses?: SeedAddress[];
+  importantDates?: SeedImportantDate[];
+}
 
 interface SeedData {
-    users: SeedUser[];
-    products: SeedProduct[];
+  users: SeedUser[];
+  people: SeedPeople[];
 }
-
 
 export const initialData: SeedData = {
+  users: [
+    {
+      email: 'admin@contactapp.com',
+      fullName: 'Administrador Principal',
+      password: bcrypt.hashSync('Admin123', 10),
+      roles: ['admin'],
+    },
+    {
+      email: 'usuario@contactapp.com',
+      fullName: 'Usuario Normal',
+      password: bcrypt.hashSync('User123', 10),
+      roles: ['user'],
+    },
+  ],
 
-    users: [
+  people: [
+    {
+      name: 'María',
+      lastName: 'González Pérez',
+      email: 'maria.gonzalez@email.com',
+      contacts: [
+        { callCode: '+591', number: '70123456', tag: 'móvil' },
+        { callCode: '+591', number: '22345678', tag: 'casa' },
+      ],
+      addresses: [
         {
-            email: 'test1@google.com',
-            fullName: 'Test One',
-            password: bcrypt.hashSync( 'Abc123', 10 ),
-            roles: ['admin']
+          street: 'Av. 16 de Julio',
+          number: '1234',
+          location: 'La Paz, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 15, month: 3, year: 1985, tag: 'cumpleaños' },
+        { day: 14, month: 2, year: 2010, tag: 'aniversario' },
+      ],
+    },
+    {
+      name: 'Juan Carlos',
+      lastName: 'Mamani Quispe',
+      email: 'juan.mamani@empresa.com',
+      contacts: [
+        { callCode: '+591', number: '75987654', tag: 'móvil' },
+        { callCode: '+591', number: '24567890', tag: 'trabajo' },
+      ],
+      addresses: [
+        {
+          street: 'Calle Comercio',
+          number: '567',
+          location: 'El Alto, Bolivia',
+          tag: 'casa',
         },
         {
-            email: 'test2@google.com',
-            fullName: 'Test Two',
-            password: bcrypt.hashSync( 'Abc123', 10 ),
-            roles: ['user','super']
-        }
-    ],
-
-    products: [
+          street: 'Av. Blanco Galindo',
+          number: '890',
+          location: 'Cochabamba, Bolivia',
+          tag: 'trabajo',
+        },
+      ],
+      importantDates: [{ day: 22, month: 8, year: 1978, tag: 'cumpleaños' }],
+    },
+    {
+      name: 'Ana Lucía',
+      lastName: 'Vargas Mendoza',
+      email: 'ana.vargas@gmail.com',
+      contacts: [{ callCode: '+591', number: '69876543', tag: 'móvil' }],
+      addresses: [
         {
-            description: "Introducing the Tesla Chill Collection. The Men’s Chill Crew Neck Sweatshirt has a premium, heavyweight exterior and soft fleece interior for comfort in any season. The sweatshirt features a subtle thermoplastic polyurethane T logo on the chest and a Tesla wordmark below the back collar. Made from 60% cotton and 40% recycled polyester.",
-            images: [
-                '1740176-00-A_0_2000.jpg',
-                '1740176-00-A_1.jpg',
-            ],
-            stock: 7,
-            price: 75,
-            sizes: ['XS','S','M','L','XL','XXL'],
-            slug: "mens_chill_crew_neck_sweatshirt",
-            type: 'shirts',
-            tags: ['sweatshirt'],
-            title: "Men’s Chill Crew Neck Sweatshirt",
-            gender: 'men'
+          street: 'Av. Cristo Redentor',
+          number: '234',
+          location: 'Santa Cruz, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 5, month: 12, year: 1992, tag: 'cumpleaños' },
+        { day: 25, month: 7, year: 2018, tag: 'graduación' },
+      ],
+    },
+    {
+      name: 'Roberto',
+      lastName: 'Choque Silva',
+      email: 'roberto.choque@hotmail.com',
+      contacts: [
+        { callCode: '+591', number: '78654321', tag: 'móvil' },
+        { callCode: '+591', number: '64123456', tag: 'trabajo' },
+      ],
+      addresses: [
+        {
+          street: 'Calle Murillo',
+          number: '456',
+          location: 'Oruro, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 10, month: 6, year: 1980, tag: 'cumpleaños' },
+        { day: 30, month: 11, year: 2005, tag: 'boda' },
+      ],
+    },
+    {
+      name: 'Carmen Rosa',
+      lastName: 'Flores Gutiérrez',
+      email: 'carmen.flores@yahoo.com',
+      contacts: [
+        { callCode: '+591', number: '65432109', tag: 'móvil' },
+        { callCode: '+591', number: '23456789', tag: 'casa' },
+      ],
+      addresses: [
+        {
+          street: 'Av. América',
+          number: '789',
+          location: 'Sucre, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [{ day: 18, month: 4, year: 1987, tag: 'cumpleaños' }],
+    },
+    {
+      name: 'Luis Fernando',
+      lastName: 'Morales López',
+      email: 'luis.morales@empresa.bo',
+      contacts: [
+        { callCode: '+591', number: '71234567', tag: 'móvil' },
+        { callCode: '+591', number: '25678901', tag: 'oficina' },
+      ],
+      addresses: [
+        {
+          street: 'Calle Bolívar',
+          number: '123',
+          location: 'Potosí, Bolivia',
+          tag: 'casa',
         },
         {
-            description: "The Men's Quilted Shirt Jacket features a uniquely fit, quilted design for warmth and mobility in cold weather seasons. With an overall street-smart aesthetic, the jacket features subtle silicone injected Tesla logos below the back collar and on the right sleeve, as well as custom matte metal zipper pulls. Made from 87% nylon and 13% polyurethane.",
-            images: [
-                '1740507-00-A_0_2000.jpg',
-                '1740507-00-A_1.jpg',
-            ],
-            stock: 5,
-            price: 200,
-            sizes: ['XS','S','M','XL','XXL'],
-            slug: "men_quilted_shirt_jacket",
-            type: 'shirts',
-            tags: ['jacket'],
-            title: "Men's Quilted Shirt Jacket",
-            gender: 'men'
+          street: 'Av. Arce',
+          number: '456',
+          location: 'La Paz, Bolivia',
+          tag: 'trabajo',
         },
-        
+      ],
+      importantDates: [
+        { day: 7, month: 9, year: 1983, tag: 'cumpleaños' },
+        { day: 15, month: 1, year: 2012, tag: 'aniversario laboral' },
+      ],
+    },
+    {
+      name: 'Patricia',
+      lastName: 'Ríos Herrera',
+      email: 'patricia.rios@outlook.com',
+      contacts: [{ callCode: '+591', number: '67890123', tag: 'móvil' }],
+      addresses: [
         {
-            description: "Introducing the Tesla Raven Collection. The Men's Raven Lightweight Zip Up Bomber has a premium, modern silhouette made from a sustainable bamboo cotton blend for versatility in any season. The hoodie features subtle thermoplastic polyurethane Tesla logos on the left chest and below the back collar, a concealed chest pocket with custom matte zipper pulls and a french terry interior. Made from 70% bamboo and 30% cotton.",
-            images: [
-                '1740250-00-A_0_2000.jpg',
-                '1740250-00-A_1.jpg'
-            ],
-            stock: 10,
-            price: 130,
-            sizes: ['S','M','L','XL','XXL'],
-            slug: "men_raven_lightweight_zip_up_bomber_jacket",
-            type: 'shirts',
-            tags: ['shirt'],
-            title: "Men's Raven Lightweight Zip Up Bomber Jacket",
-            gender: 'men'
+          street: 'Av. Hernando Siles',
+          number: '890',
+          location: 'La Paz, Bolivia',
+          tag: 'casa',
         },
-
+      ],
+      importantDates: [
+        { day: 12, month: 11, year: 1990, tag: 'cumpleaños' },
+        { day: 8, month: 3, year: 2020, tag: 'día de la mujer' },
+      ],
+    },
+    {
+      name: 'Carlos Alberto',
+      lastName: 'Ticona Mamani',
+      email: 'carlos.ticona@gmail.com',
+      contacts: [
+        { callCode: '+591', number: '76543210', tag: 'móvil' },
+        { callCode: '+591', number: '26789012', tag: 'casa' },
+      ],
+      addresses: [
         {
-            description: "Introducing the Tesla Turbine Collection. Designed for style, comfort and everyday lifestyle, the Men's Turbine Long Sleeve Tee features a subtle, water-based T logo on the left chest and our Tesla wordmark below the back collar. The lightweight material is double-dyed, creating a soft, casual style for ideal wear in any season. Made from 50% cotton and 50% polyester.",
-            images: [
-                '1740280-00-A_0_2000.jpg',
-                '1740280-00-A_1.jpg',
-            ],
-            stock: 50,
-            price: 45,
-            sizes: ['XS','S','M','L'],
-            slug: "men_turbine_long_sleeve_tee",
-            type: 'shirts',
-            tags: ['shirt'],
-            title: "Men's Turbine Long Sleeve Tee",
-            gender: 'men'
+          street: 'Calle Sagárnaga',
+          number: '345',
+          location: 'La Paz, Bolivia',
+          tag: 'casa',
         },
+      ],
+      importantDates: [
+        { day: 25, month: 12, year: 1975, tag: 'cumpleaños' },
+        { day: 6, month: 8, year: 1825, tag: 'día de la independencia' },
+      ],
+    },
+    {
+      name: 'Silvia',
+      lastName: 'Condori Apaza',
+      email: 'silvia.condori@hotmail.com',
+      contacts: [
+        { callCode: '+591', number: '65789012', tag: 'móvil' },
+        { callCode: '+591', number: '27890123', tag: 'trabajo' },
+      ],
+      addresses: [
         {
-            description: "Introducing the Tesla Turbine Collection. Designed for style, comfort and everyday lifestyle, the Men's Turbine Short Sleeve Tee features a subtle, water-based Tesla wordmark across the chest and our T logo below the back collar. The lightweight material is double-dyed, creating a soft, casual style for ideal wear in any season. Made from 50% cotton and 50% polyester.",
-            images: [
-                '1741416-00-A_0_2000.jpg',
-                '1741416-00-A_1.jpg',
-            ],
-            stock: 50,
-            price: 40,
-            sizes: ['M','L','XL','XXL'],
-            slug: "men_turbine_short_sleeve_tee",
-            type: 'shirts',
-            tags: ['shirt'],
-            title: "Men's Turbine Short Sleeve Tee",
-            gender: 'men'
+          street: 'Av. Max Paredes',
+          number: '678',
+          location: 'La Paz, Bolivia',
+          tag: 'casa',
         },
+      ],
+      importantDates: [{ day: 20, month: 1, year: 1988, tag: 'cumpleaños' }],
+    },
+    {
+      name: 'Fernando',
+      lastName: 'Gutierrez Rojas',
+      email: 'fernando.gutierrez@empresa.com',
+      contacts: [
+        { callCode: '+591', number: '72345678', tag: 'móvil' },
+        { callCode: '+591', number: '64567890', tag: 'oficina' },
+      ],
+      addresses: [
         {
-            description: "Designed for comfort, the Cybertruck Owl Tee is made from 100% cotton and features our signature Cybertruck icon on the back.",
-            images: [
-                '7654393-00-A_2_2000.jpg',
-                '7654393-00-A_3.jpg',
-            ],
-            stock: 0,
-            price: 35,
-            sizes: ['M','L','XL','XXL'],
-            slug: "men_cybertruck_owl_tee",
-            type: 'shirts',
-            tags: ['shirt'],
-            title: "Men's Cybertruck Owl Tee",
-            gender: 'men'
-        },
-        {
-            description: "Inspired by our fully integrated home solar and storage system, the Tesla Solar Roof Tee advocates for clean, sustainable energy wherever you go. Designed for fit, comfort and style, the tee features an aerial view of our seamless Solar Roof design on the front with our signature T logo above 'Solar Roof' on the back. Made from 100% Peruvian cotton.",
-            images: [
-                '1703767-00-A_0_2000.jpg',
-                '1703767-00-A_1.jpg',
-            ],
-            stock: 15,
-            price: 35,
-            sizes: ['S','M','L','XL'],
-            slug: "men_solar_roof_tee",
-            type: 'shirts',
-            tags: ['shirt'],
-            title: "Men's Solar Roof Tee",
-            gender: 'men'
+          street: 'Calle Jaén',
+          number: '234',
+          location: 'La Paz, Bolivia',
+          tag: 'casa',
         },
         {
-            description: "Inspired by the world’s most unlimited resource, the Let the Sun Shine Tee highlights our fully integrated home solar and storage system. Designed for fit, comfort and style, the tee features a sunset graphic along with our Tesla wordmark on the front and our signature T logo printed above 'Solar Roof' on the back. Made from 100% Peruvian cotton.",
-            images: [
-                '1700280-00-A_0_2000.jpg',
-                '1700280-00-A_1.jpg',
-            ],
-            stock: 17,
-            price: 35,
-            sizes: ['XS','S','XL','XXL'],
-            slug: "men_let_the_sun_shine_tee",
-            type: 'shirts',
-            tags: ['shirt'],
-            title: "Men's Let the Sun Shine Tee",
-            gender: 'men'
+          street: 'Av. 6 de Agosto',
+          number: '567',
+          location: 'La Paz, Bolivia',
+          tag: 'trabajo',
+        },
+      ],
+      importantDates: [
+        { day: 3, month: 7, year: 1982, tag: 'cumpleaños' },
+        { day: 1, month: 5, year: 2015, tag: 'día del trabajador' },
+      ],
+    },
+    {
+      name: 'Mónica',
+      lastName: 'Quiroga Mendez',
+      email: 'monica.quiroga@yahoo.com',
+      contacts: [{ callCode: '+591', number: '68901234', tag: 'móvil' }],
+      addresses: [
+        {
+          street: 'Av. Ballivián',
+          number: '901',
+          location: 'La Paz, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 14, month: 2, year: 1993, tag: 'cumpleaños' },
+        { day: 14, month: 2, year: 2023, tag: 'día de san valentín' },
+      ],
+    },
+    {
+      name: 'Andrés',
+      lastName: 'Sánchez Velasco',
+      email: 'andres.sanchez@gmail.com',
+      contacts: [
+        { callCode: '+591', number: '79012345', tag: 'móvil' },
+        { callCode: '+591', number: '28901234', tag: 'casa' },
+      ],
+      addresses: [
+        {
+          street: 'Calle Linares',
+          number: '456',
+          location: 'La Paz, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [{ day: 16, month: 10, year: 1979, tag: 'cumpleaños' }],
+    },
+    {
+      name: 'Rosario',
+      lastName: 'Huanca Torres',
+      email: 'rosario.huanca@outlook.com',
+      contacts: [
+        { callCode: '+591', number: '66789123', tag: 'móvil' },
+        { callCode: '+591', number: '23789456', tag: 'trabajo' },
+      ],
+      addresses: [
+        {
+          street: 'Av. Juan Pablo II',
+          number: '123',
+          location: 'El Alto, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 7, month: 10, year: 1986, tag: 'cumpleaños' },
+        { day: 12, month: 10, year: 1492, tag: 'día de la raza' },
+      ],
+    },
+    {
+      name: 'Miguel',
+      lastName: 'Callisaya Nina',
+      email: 'miguel.callisaya@hotmail.com',
+      contacts: [{ callCode: '+591', number: '74567890', tag: 'móvil' }],
+      addresses: [
+        {
+          street: 'Calle Potosí',
+          number: '789',
+          location: 'La Paz, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [{ day: 29, month: 5, year: 1984, tag: 'cumpleaños' }],
+    },
+    {
+      name: 'Elena',
+      lastName: 'Castro Jiménez',
+      email: 'elena.castro@empresa.bo',
+      contacts: [
+        { callCode: '+591', number: '63456789', tag: 'móvil' },
+        { callCode: '+591', number: '24567890', tag: 'oficina' },
+      ],
+      addresses: [
+        {
+          street: 'Av. Mariscal Santa Cruz',
+          number: '345',
+          location: 'La Paz, Bolivia',
+          tag: 'trabajo',
         },
         {
-            description: "Designed for fit, comfort and style, the Men's 3D Large Wordmark Tee is made from 100% Peruvian cotton with a 3D silicone-printed Tesla wordmark printed across the chest.",
-            images: [
-                '8764734-00-A_0_2000.jpg',
-                '8764734-00-A_1.jpg',
-            ],
-            stock: 12,
-            price: 35,
-            sizes: ['XS','S','M'],
-            slug: "men_3d_large_wordmark_tee",
-            type: 'shirts',
-            tags: ['shirt'],
-            title: "Men's 3D Large Wordmark Tee",
-            gender: 'men'
+          street: 'Calle Illampu',
+          number: '678',
+          location: 'La Paz, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 21, month: 3, year: 1991, tag: 'cumpleaños' },
+        { day: 21, month: 6, year: 2021, tag: 'año nuevo aymara' },
+      ],
+    },
+    {
+      name: 'Jorge',
+      lastName: 'Poma Carvajal',
+      email: 'jorge.poma@gmail.com',
+      contacts: [
+        { callCode: '+591', number: '75678901', tag: 'móvil' },
+        { callCode: '+591', number: '29012345', tag: 'casa' },
+      ],
+      addresses: [
+        {
+          street: 'Av. Costanera',
+          number: '234',
+          location: 'Cochabamba, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [{ day: 4, month: 11, year: 1977, tag: 'cumpleaños' }],
+    },
+    {
+      name: 'Verónica',
+      lastName: 'Alanoca Quisbert',
+      email: 'veronica.alanoca@yahoo.com',
+      contacts: [{ callCode: '+591', number: '69789012', tag: 'móvil' }],
+      addresses: [
+        {
+          street: 'Calle Sucre',
+          number: '567',
+          location: 'Tarija, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 8, month: 12, year: 1989, tag: 'cumpleaños' },
+        { day: 8, month: 12, year: 1989, tag: 'inmaculada concepción' },
+      ],
+    },
+    {
+      name: 'Ricardo',
+      lastName: 'Vásquez Paredes',
+      email: 'ricardo.vasquez@hotmail.com',
+      contacts: [
+        { callCode: '+591', number: '77890123', tag: 'móvil' },
+        { callCode: '+591', number: '65432198', tag: 'trabajo' },
+      ],
+      addresses: [
+        {
+          street: 'Av. Las Americas',
+          number: '890',
+          location: 'Santa Cruz, Bolivia',
+          tag: 'casa',
         },
         {
-            description: "Designed for fit, comfort and style, the Tesla T Logo Tee is made from 100% Peruvian cotton and features a silicone-printed T Logo on the left chest.",
-            images: [
-                '7652426-00-A_0_2000.jpg',
-                '7652426-00-A_1.jpg',
-            ],
-            stock: 5,
-            price: 35,
-            sizes: ['XS','S'],
-            slug: "men_3d_t_logo_tee",
-            type: 'shirts',
-            tags: ['shirt'],
-            title: "Men's 3D T Logo Tee",
-            gender: 'men'
+          street: 'Calle 21 de Mayo',
+          number: '123',
+          location: 'Santa Cruz, Bolivia',
+          tag: 'oficina',
+        },
+      ],
+      importantDates: [
+        { day: 13, month: 4, year: 1981, tag: 'cumpleaños' },
+        { day: 21, month: 5, year: 2010, tag: 'aniversario' },
+      ],
+    },
+    {
+      name: 'Gloria',
+      lastName: 'Zenteno Aguilar',
+      email: 'gloria.zenteno@outlook.com',
+      contacts: [
+        { callCode: '+591', number: '62345678', tag: 'móvil' },
+        { callCode: '+591', number: '25678901', tag: 'casa' },
+      ],
+      addresses: [
+        {
+          street: 'Calle Ayacucho',
+          number: '456',
+          location: 'Sucre, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 24, month: 9, year: 1994, tag: 'cumpleaños' },
+        { day: 24, month: 9, year: 1994, tag: 'día de la primavera' },
+      ],
+    },
+    {
+      name: 'Ramiro',
+      lastName: 'Choquehuanca Cruz',
+      email: 'ramiro.choquehuanca@empresa.com',
+      contacts: [
+        { callCode: '+591', number: '78123456', tag: 'móvil' },
+        { callCode: '+591', number: '64789012', tag: 'trabajo' },
+      ],
+      addresses: [
+        {
+          street: 'Av. Circunvalación',
+          number: '789',
+          location: 'Trinidad, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 11, month: 1, year: 1976, tag: 'cumpleaños' },
+        { day: 22, month: 1, year: 2006, tag: 'día del estado plurinacional' },
+      ],
+    },
+    {
+      name: 'Alejandro',
+      lastName: 'Bustamante Rocha',
+      email: 'alejandro.bustamante@gmail.com',
+      contacts: [
+        { callCode: '+591', number: '73456789', tag: 'móvil' },
+        { callCode: '+591', number: '26543210', tag: 'casa' },
+      ],
+      addresses: [
+        {
+          street: 'Calle Rosendo Gutiérrez',
+          number: '567',
+          location: 'La Paz, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 2, month: 2, year: 1986, tag: 'cumpleaños' },
+        { day: 2, month: 2, year: 2020, tag: 'día de la candelaria' },
+      ],
+    },
+    {
+      name: 'Beatriz',
+      lastName: 'Limachi Condori',
+      email: 'beatriz.limachi@outlook.com',
+      contacts: [{ callCode: '+591', number: '61234567', tag: 'móvil' }],
+      addresses: [
+        {
+          street: 'Av. Petrolera',
+          number: '1234',
+          location: 'Santa Cruz, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [{ day: 9, month: 5, year: 1995, tag: 'cumpleaños' }],
+    },
+    {
+      name: 'Diego',
+      lastName: 'Espinoza Martínez',
+      email: 'diego.espinoza@empresa.bo',
+      contacts: [
+        { callCode: '+591', number: '74321098', tag: 'móvil' },
+        { callCode: '+591', number: '44567890', tag: 'trabajo' },
+      ],
+      addresses: [
+        {
+          street: 'Av. Oquendo',
+          number: '890',
+          location: 'Cochabamba, Bolivia',
+          tag: 'casa',
         },
         {
-            description: "Designed for comfort and style in any size, the Tesla Small Wordmark Tee is made from 100% Peruvian cotton and features a 3D silicone-printed wordmark on the left chest.",
-            images: [
-                '8528839-00-A_0_2000.jpg',
-                '8528839-00-A_2.jpg',
-            ],
-            stock: 2,
-            price: 35,
-            sizes: ['XS','S','M'],
-            slug: "men_3d_small_wordmark_tee",
-            type: 'shirts',
-            tags: ['shirt'],
-            title: "Men’s 3D Small Wordmark Tee",
-            gender: 'men'
+          street: 'Calle España',
+          number: '234',
+          location: 'Cochabamba, Bolivia',
+          tag: 'oficina',
+        },
+      ],
+      importantDates: [
+        { day: 17, month: 7, year: 1989, tag: 'cumpleaños' },
+        { day: 14, month: 9, year: 2016, tag: 'día de cochabamba' },
+      ],
+    },
+    {
+      name: 'Esperanza',
+      lastName: 'Yapita Colque',
+      email: 'esperanza.yapita@hotmail.com',
+      contacts: [
+        { callCode: '+591', number: '68765432', tag: 'móvil' },
+        { callCode: '+591', number: '22876543', tag: 'casa' },
+      ],
+      addresses: [
+        {
+          street: 'Calle Evaristo Valle',
+          number: '345',
+          location: 'La Paz, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 28, month: 8, year: 1972, tag: 'cumpleaños' },
+        { day: 1, month: 11, year: 2000, tag: 'día de todos los santos' },
+      ],
+    },
+    {
+      name: 'Francisco',
+      lastName: 'Mamani Chura',
+      email: 'francisco.mamani@yahoo.com',
+      contacts: [{ callCode: '+591', number: '77654321', tag: 'móvil' }],
+      addresses: [
+        {
+          street: 'Av. Montes',
+          number: '678',
+          location: 'La Paz, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 4, month: 10, year: 1984, tag: 'cumpleaños' },
+        { day: 4, month: 10, year: 1984, tag: 'día de san francisco' },
+      ],
+    },
+    {
+      name: 'Gabriela',
+      lastName: 'Quispe Mamani',
+      email: 'gabriela.quispe@gmail.com',
+      contacts: [
+        { callCode: '+591', number: '65987654', tag: 'móvil' },
+        { callCode: '+591', number: '42345678', tag: 'trabajo' },
+      ],
+      addresses: [
+        {
+          street: 'Av. Aroma',
+          number: '456',
+          location: 'Cochabamba, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 31, month: 12, year: 1991, tag: 'cumpleaños' },
+        { day: 31, month: 12, year: 2019, tag: 'año nuevo' },
+      ],
+    },
+    {
+      name: 'Hernán',
+      lastName: 'Vargas Soliz',
+      email: 'hernan.vargas@empresa.com',
+      contacts: [
+        { callCode: '+591', number: '79876543', tag: 'móvil' },
+        { callCode: '+591', number: '33456789', tag: 'oficina' },
+      ],
+      addresses: [
+        {
+          street: 'Av. Banzer',
+          number: '789',
+          location: 'Santa Cruz, Bolivia',
+          tag: 'trabajo',
         },
         {
-            description: "Designed to celebrate Tesla's incredible performance mode, the Plaid Mode Tee features great fit, comfort and style. Made from 100% cotton, it's the next best thing to riding shotgun at the Nürburgring.",
-            images: [
-                '1549268-00-A_0_2000.jpg',
-                '1549268-00-A_2.jpg',
-            ],
-            stock: 82,
-            price: 35,
-            sizes: ['XS','S','M','L','XL','XXL'],
-            slug: "men_plaid_mode_tee",
-            type: 'shirts',
-            tags: ['shirt'],
-            title: "Men's Plaid Mode Tee",
-            gender: 'men'
+          street: 'Barrio Las Palmas',
+          number: '123',
+          location: 'Santa Cruz, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 6, month: 1, year: 1987, tag: 'cumpleaños' },
+        { day: 6, month: 1, year: 2018, tag: 'día de reyes' },
+      ],
+    },
+    {
+      name: 'Isabel',
+      lastName: 'Cáceres Mendoza',
+      email: 'isabel.caceres@outlook.com',
+      contacts: [{ callCode: '+591', number: '62876543', tag: 'móvil' }],
+      addresses: [
+        {
+          street: 'Calle Dalence',
+          number: '567',
+          location: 'Sucre, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 25, month: 5, year: 1993, tag: 'cumpleaños' },
+        { day: 25, month: 5, year: 1809, tag: 'revolución de chuquisaca' },
+      ],
+    },
+    {
+      name: 'Javier',
+      lastName: 'Torrez Ramírez',
+      email: 'javier.torrez@hotmail.com',
+      contacts: [
+        { callCode: '+591', number: '71876543', tag: 'móvil' },
+        { callCode: '+591', number: '62543210', tag: 'trabajo' },
+      ],
+      addresses: [
+        {
+          street: 'Av. Circunvalación',
+          number: '234',
+          location: 'Tarija, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 15, month: 4, year: 1980, tag: 'cumpleaños' },
+        { day: 15, month: 4, year: 2012, tag: 'aniversario' },
+      ],
+    },
+    {
+      name: 'Karina',
+      lastName: 'Llanos Pérez',
+      email: 'karina.llanos@gmail.com',
+      contacts: [
+        { callCode: '+591', number: '67543210', tag: 'móvil' },
+        { callCode: '+591', number: '46789012', tag: 'casa' },
+      ],
+      addresses: [
+        {
+          street: 'Av. Heroínas',
+          number: '890',
+          location: 'Cochabamba, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 27, month: 5, year: 1988, tag: 'cumpleaños' },
+        { day: 27, month: 5, year: 1812, tag: 'día de las heroínas' },
+      ],
+    },
+    {
+      name: 'Lorenzo',
+      lastName: 'Chambi Quisbert',
+      email: 'lorenzo.chambi@yahoo.com',
+      contacts: [{ callCode: '+591', number: '78321098', tag: 'móvil' }],
+      addresses: [
+        {
+          street: 'Calle Quijarro',
+          number: '345',
+          location: 'Potosí, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [{ day: 10, month: 8, year: 1974, tag: 'cumpleaños' }],
+    },
+    {
+      name: 'Magdalena',
+      lastName: 'Paco Huanca',
+      email: 'magdalena.paco@empresa.bo',
+      contacts: [
+        { callCode: '+591', number: '64210987', tag: 'móvil' },
+        { callCode: '+591', number: '25432109', tag: 'trabajo' },
+      ],
+      addresses: [
+        {
+          street: 'Av. Buenos Aires',
+          number: '678',
+          location: 'La Paz, Bolivia',
+          tag: 'trabajo',
         },
         {
-            description: "Inspired by our popular home battery, the Tesla Powerwall Tee is made from 100% cotton and features the phrase 'Pure Energy' under our signature logo in the back. Designed for fit, comfort and style, the exclusive tee promotes sustainable energy in any environment.",
-            images: [
-                '9877034-00-A_0_2000.jpg',
-                '9877034-00-A_2.jpg',
-            ],
-            stock: 24,
-            price: 35,
-            sizes: ['XL','XXL'],
-            slug: "men_powerwall_tee",
-            type: 'shirts',
-            tags: ['shirt'],
-            title: "Men's Powerwall Tee",
-            gender: 'men'
+          street: 'Calle México',
+          number: '901',
+          location: 'La Paz, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 22, month: 7, year: 1985, tag: 'cumpleaños' },
+        { day: 22, month: 7, year: 2010, tag: 'día de magdalena' },
+      ],
+    },
+    {
+      name: 'Nicolás',
+      lastName: 'Ramos Silva',
+      email: 'nicolas.ramos@hotmail.com',
+      contacts: [
+        { callCode: '+591', number: '73210987', tag: 'móvil' },
+        { callCode: '+591', number: '67890123', tag: 'casa' },
+      ],
+      addresses: [
+        {
+          street: 'Barrio Equipetrol',
+          number: '234',
+          location: 'Santa Cruz, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 6, month: 12, year: 1983, tag: 'cumpleaños' },
+        { day: 6, month: 12, year: 2015, tag: 'día de san nicolás' },
+      ],
+    },
+    {
+      name: 'Olga',
+      lastName: 'Fernández Castro',
+      email: 'olga.fernandez@outlook.com',
+      contacts: [{ callCode: '+591', number: '69109876', tag: 'móvil' }],
+      addresses: [
+        {
+          street: 'Calle Campero',
+          number: '567',
+          location: 'Sucre, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [{ day: 11, month: 7, year: 1990, tag: 'cumpleaños' }],
+    },
+    {
+      name: 'Pablo',
+      lastName: 'Durán Morales',
+      email: 'pablo.duran@gmail.com',
+      contacts: [
+        { callCode: '+591', number: '76109876', tag: 'móvil' },
+        { callCode: '+591', number: '43210987', tag: 'oficina' },
+      ],
+      addresses: [
+        {
+          street: 'Av. Melchor Pérez',
+          number: '890',
+          location: 'Cochabamba, Bolivia',
+          tag: 'casa',
         },
         {
-            description: "Inspired by Tesla Battery Day and featuring the unveiled tabless battery cell, Battery Day Tee celebrates the future of energy storage and cell manufacturing. Designed for fit, comfort and style, Battery Day Tee is made from 100% cotton with a stylized cell printed across the chest. Made in Peru.",
-            images: [
-                '1633802-00-A_0_2000.jpg',
-                '1633802-00-A_2.jpg',
-            ],
-            stock: 5,
-            price: 30,
-            sizes: ['XS','S','XXL'],
-            slug: "men_battery_day_tee",
-            type: 'shirts',
-            tags: ['shirt'],
-            title: "Men's Battery Day Tee",
-            gender: 'men'
+          street: 'Zona Sur',
+          number: '123',
+          location: 'Cochabamba, Bolivia',
+          tag: 'trabajo',
+        },
+      ],
+      importantDates: [
+        { day: 29, month: 6, year: 1981, tag: 'cumpleaños' },
+        { day: 29, month: 6, year: 2008, tag: 'día de san pablo' },
+      ],
+    },
+    {
+      name: 'Rocío',
+      lastName: 'Herrera Vega',
+      email: 'rocio.herrera@empresa.com',
+      contacts: [
+        { callCode: '+591', number: '65109876', tag: 'móvil' },
+        { callCode: '+591', number: '22109876', tag: 'casa' },
+      ],
+      addresses: [
+        {
+          street: 'Av. Arce',
+          number: '456',
+          location: 'La Paz, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 16, month: 8, year: 1992, tag: 'cumpleaños' },
+        { day: 16, month: 8, year: 2020, tag: 'día de rocío' },
+      ],
+    },
+    {
+      name: 'Sergio',
+      lastName: 'Molina Rojas',
+      email: 'sergio.molina@yahoo.com',
+      contacts: [{ callCode: '+591', number: '72109876', tag: 'móvil' }],
+      addresses: [
+        {
+          street: 'Calle Libertad',
+          number: '789',
+          location: 'Oruro, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [{ day: 23, month: 9, year: 1979, tag: 'cumpleaños' }],
+    },
+    {
+      name: 'Teresa',
+      lastName: 'Villarroel Guzmán',
+      email: 'teresa.villarroel@hotmail.com',
+      contacts: [
+        { callCode: '+591', number: '68109876', tag: 'móvil' },
+        { callCode: '+591', number: '24109876', tag: 'trabajo' },
+      ],
+      addresses: [
+        {
+          street: 'Av. Simón Bolívar',
+          number: '123',
+          location: 'La Paz, Bolivia',
+          tag: 'trabajo',
         },
         {
-            description: "Designed for exceptional comfort and inspired by the Cybertruck unveil event, the Cybertruck Bulletproof Tee is made from 100% cotton and features our signature Cybertruck icon on the back.",
-            images: [
-                '7654399-00-A_0_2000.jpg',
-                '7654399-00-A_1.jpg',
-            ],
-            stock: 150,
-            price: 30,
-            sizes: ['M','L'],
-            slug: "men_cybertruck_bulletproof_tee",
-            type: 'shirts',
-            tags: ['shirt'],
-            title: "Men’s Cybertruck Bulletproof Tee",
-            gender: 'men'
+          street: 'Calle Yanacocha',
+          number: '456',
+          location: 'La Paz, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 15, month: 10, year: 1987, tag: 'cumpleaños' },
+        { day: 15, month: 10, year: 2014, tag: 'día de santa teresa' },
+      ],
+    },
+    {
+      name: 'Ulises',
+      lastName: 'Sandoval Choque',
+      email: 'ulises.sandoval@gmail.com',
+      contacts: [
+        { callCode: '+591', number: '77109876', tag: 'móvil' },
+        { callCode: '+591', number: '65109876', tag: 'casa' },
+      ],
+      addresses: [
+        {
+          street: 'Av. Roca y Coronado',
+          number: '789',
+          location: 'Cochabamba, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [{ day: 20, month: 11, year: 1985, tag: 'cumpleaños' }],
+    },
+    {
+      name: 'Valeria',
+      lastName: 'Cruz Mamani',
+      email: 'valeria.cruz@outlook.com',
+      contacts: [{ callCode: '+591', number: '63109876', tag: 'móvil' }],
+      addresses: [
+        {
+          street: 'Barrio Villa Fátima',
+          number: '234',
+          location: 'La Paz, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 14, month: 2, year: 1994, tag: 'cumpleaños' },
+        { day: 14, month: 2, year: 2022, tag: 'día de los enamorados' },
+      ],
+    },
+    {
+      name: 'William',
+      lastName: 'Paredes Inca',
+      email: 'william.paredes@empresa.bo',
+      contacts: [
+        { callCode: '+591', number: '74109876', tag: 'móvil' },
+        { callCode: '+591', number: '44109876', tag: 'oficina' },
+      ],
+      addresses: [
+        {
+          street: 'Av. República',
+          number: '567',
+          location: 'Cochabamba, Bolivia',
+          tag: 'trabajo',
         },
         {
-            description: "Inspired by the Model Y order confirmation graphic, the limited edition Haha Yes Tee is designed for comfort and style. Made from 100% Peruvian cotton and featuring the Tesla wordmark across the chest, the exclusive tee will commemorate your order for years to come.",
-            images: [
-                '7652410-00-A_0.jpg',
-                '7652410-00-A_1_2000.jpg',
-            ],
-            stock: 10,
-            price: 35,
-            sizes: ['XS','S','M','L','XL','XXL'],
-            slug: "men_haha_yes_tee",
-            type: 'shirts',
-            tags: ['shirt'],
-            title: "Men's Haha Yes Tee",
-            gender: 'men'
+          street: 'Calle Jordán',
+          number: '890',
+          location: 'Cochabamba, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 19, month: 3, year: 1982, tag: 'cumpleaños' },
+        { day: 19, month: 3, year: 2011, tag: 'día del padre' },
+      ],
+    },
+    {
+      name: 'Ximena',
+      lastName: 'Aguilar Portillo',
+      email: 'ximena.aguilar@hotmail.com',
+      contacts: [
+        { callCode: '+591', number: '69543210', tag: 'móvil' },
+        { callCode: '+591', number: '33109876', tag: 'trabajo' },
+      ],
+      addresses: [
+        {
+          street: 'Av. Roca y Coronado',
+          number: '123',
+          location: 'Santa Cruz, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 8, month: 12, year: 1990, tag: 'cumpleaños' },
+        { day: 8, month: 12, year: 2017, tag: 'inmaculada concepción' },
+      ],
+    },
+    {
+      name: 'Yolanda',
+      lastName: 'Saavedra Nina',
+      email: 'yolanda.saavedra@yahoo.com',
+      contacts: [{ callCode: '+591', number: '66543210', tag: 'móvil' }],
+      addresses: [
+        {
+          street: 'Calle Calama',
+          number: '456',
+          location: 'La Paz, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [{ day: 17, month: 12, year: 1986, tag: 'cumpleaños' }],
+    },
+    {
+      name: 'Zenón',
+      lastName: 'Ayala Condori',
+      email: 'zenon.ayala@gmail.com',
+      contacts: [
+        { callCode: '+591', number: '75543210', tag: 'móvil' },
+        { callCode: '+591', number: '26543210', tag: 'casa' },
+      ],
+      addresses: [
+        {
+          street: 'Av. Del Ejercito',
+          number: '789',
+          location: 'La Paz, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [{ day: 12, month: 4, year: 1976, tag: 'cumpleaños' }],
+    },
+    {
+      name: 'Amelia',
+      lastName: 'Cordero Salinas',
+      email: 'amelia.cordero@empresa.com',
+      contacts: [
+        { callCode: '+591', number: '62543210', tag: 'móvil' },
+        { callCode: '+591', number: '45543210', tag: 'trabajo' },
+      ],
+      addresses: [
+        {
+          street: 'Calle Venezuela',
+          number: '123',
+          location: 'Cochabamba, Bolivia',
+          tag: 'trabajo',
         },
         {
-            description: "Designed for fit, comfort and style, the limited edition S3XY Tee is made from 100% cotton with a 3D silicone-printed “S3XY” logo across the chest. Made in Peru. Available in black.",
-            images: [
-                '8764600-00-A_0_2000.jpg',
-                '8764600-00-A_2.jpg',
-            ],
-            stock: 34,
-            price: 35,
-            sizes: ['XS','S','M','L'],
-            slug: "men_s3xy_tee",
-            type: 'shirts',
-            tags: ['shirt'],
-            title: "Men's S3XY Tee",
-            gender: 'men'
+          street: 'Av. Pando',
+          number: '456',
+          location: 'Cochabamba, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 5, month: 5, year: 1989, tag: 'cumpleaños' },
+        { day: 5, month: 5, year: 2016, tag: 'día de amelia' },
+      ],
+    },
+    {
+      name: 'Bernardo',
+      lastName: 'Tórrez Huanca',
+      email: 'bernardo.torrez@outlook.com',
+      contacts: [{ callCode: '+591', number: '71543210', tag: 'móvil' }],
+      addresses: [
+        {
+          street: 'Barrio San Antonio',
+          number: '789',
+          location: 'Tarija, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 20, month: 8, year: 1978, tag: 'cumpleaños' },
+        { day: 20, month: 8, year: 2005, tag: 'día de san bernardo' },
+      ],
+    },
+    {
+      name: 'Cecilia',
+      lastName: 'Miranda Apaza',
+      email: 'cecilia.miranda@hotmail.com',
+      contacts: [
+        { callCode: '+591', number: '67543210', tag: 'móvil' },
+        { callCode: '+591', number: '23543210', tag: 'casa' },
+      ],
+      addresses: [
+        {
+          street: 'Calle Genaro Sanjinés',
+          number: '234',
+          location: 'La Paz, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 22, month: 11, year: 1993, tag: 'cumpleaños' },
+        { day: 22, month: 11, year: 2019, tag: 'día de santa cecilia' },
+      ],
+    },
+    {
+      name: 'Damián',
+      lastName: 'Colque Quispe',
+      email: 'damian.colque@gmail.com',
+      contacts: [
+        { callCode: '+591', number: '78543210', tag: 'móvil' },
+        { callCode: '+591', number: '64543210', tag: 'trabajo' },
+      ],
+      addresses: [
+        {
+          street: 'Av. Blanco Galindo Km 4',
+          number: '567',
+          location: 'Cochabamba, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 27, month: 9, year: 1984, tag: 'cumpleaños' },
+        { day: 27, month: 9, year: 2012, tag: 'día de san damián' },
+      ],
+    },
+    {
+      name: 'Estela',
+      lastName: 'Marca Choque',
+      email: 'estela.marca@yahoo.com',
+      contacts: [{ callCode: '+591', number: '64543210', tag: 'móvil' }],
+      addresses: [
+        {
+          street: 'Calle Ingavi',
+          number: '890',
+          location: 'La Paz, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [{ day: 18, month: 8, year: 1991, tag: 'cumpleaños' }],
+    },
+    {
+      name: 'Fabricio',
+      lastName: 'Delgado Vargas',
+      email: 'fabricio.delgado@empresa.bo',
+      contacts: [
+        { callCode: '+591', number: '73543210', tag: 'móvil' },
+        { callCode: '+591', number: '35543210', tag: 'oficina' },
+      ],
+      addresses: [
+        {
+          street: 'Barrio Urubó',
+          number: '123',
+          location: 'Santa Cruz, Bolivia',
+          tag: 'casa',
         },
         {
-            description: "Designed for fit, comfort and style, the Men's 3D Wordmark Long Sleeve Tee is made from 100% cotton and features an understated wordmark logo on the left chest.",
-            images: [
-                '8764813-00-A_0_2000.jpg',
-                '8764813-00-A_1.jpg',
-            ],
-            stock: 15,
-            price: 40,
-            sizes: ['XL','XXL'],
-            slug: "men_3d_wordmark_long_sleeve_tee",
-            type: 'shirts',
-            tags: ['shirt'],
-            title: "Men's 3D Wordmark Long Sleeve Tee",
-            gender: 'men'
+          street: 'Av. San Martín',
+          number: '456',
+          location: 'Santa Cruz, Bolivia',
+          tag: 'trabajo',
+        },
+      ],
+      importantDates: [
+        { day: 11, month: 11, year: 1988, tag: 'cumpleaños' },
+        { day: 11, month: 11, year: 2015, tag: 'día de san martín' },
+      ],
+    },
+    {
+      name: 'Adriana',
+      lastName: 'Bellido Campos',
+      email: 'adriana.bellido@medico.com',
+      contacts: [
+        { callCode: '+591', number: '60123456', tag: 'móvil' },
+        { callCode: '+591', number: '42123456', tag: 'consultorio' },
+      ],
+      addresses: [
+        {
+          street: 'Calle Estudiantes',
+          number: '159',
+          location: 'Cochabamba, Bolivia',
+          tag: 'consultorio',
         },
         {
-            description: "Designed for fit, comfort and style, the Men's 3D T Logo Long Sleeve Tee is made from 100% cotton and features an understated T logo on the left chest.",
-            images: [
-                '8529198-00-A_0_2000.jpg',
-                '8529198-00-A_1.jpg',
-            ],
-            stock: 12,
-            price: 40,
-            sizes: ['XS','XXL'],
-            slug: "men_3d_t_logo_long_sleeve_tee",
-            type: 'shirts',
-            tags: ['shirt'],
-            title: "Men's 3D T Logo Long Sleeve Tee",
-            gender: 'men'
+          street: 'Av. Circunvalación Norte',
+          number: '2847',
+          location: 'Cochabamba, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 26, month: 6, year: 1990, tag: 'cumpleaños' },
+        { day: 15, month: 8, year: 2018, tag: 'graduación medicina' },
+      ],
+    },
+    {
+      name: 'Bolivar',
+      lastName: 'Quisbert Alanoca',
+      email: 'bolivar.quisbert@construccion.bo',
+      contacts: [
+        { callCode: '+591', number: '79456123', tag: 'móvil' },
+        { callCode: '+591', number: '22456123', tag: 'obra' },
+      ],
+      addresses: [
+        {
+          street: 'Zona Villa El Carmen',
+          number: '2456',
+          location: 'El Alto, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 6, month: 8, year: 1975, tag: 'cumpleaños' },
+        { day: 6, month: 8, year: 1825, tag: 'independencia de bolivia' },
+      ],
+    },
+    {
+      name: 'Claudia',
+      lastName: 'Zenteno Flores',
+      email: 'claudia.zenteno@universidad.edu.bo',
+      contacts: [
+        { callCode: '+591', number: '69789456', tag: 'móvil' },
+        { callCode: '+591', number: '46789456', tag: 'universidad' },
+      ],
+      addresses: [
+        {
+          street: 'Campus Universitario',
+          number: 'Bloque C',
+          location: 'Cochabamba, Bolivia',
+          tag: 'trabajo',
         },
         {
-            description: "Introducing the Tesla Raven Collection. The Men's Raven Lightweight Hoodie has a premium, relaxed silhouette made from a sustainable bamboo cotton blend. The hoodie features subtle thermoplastic polyurethane Tesla logos across the chest and on the sleeve with a french terry interior for versatility in any season. Made from 70% bamboo and 30% cotton.",
-            images: [
-                '1740245-00-A_0_2000.jpg',
-                '1740245-00-A_1.jpg',
-            ],
-            stock: 10,
-            price: 115,
-            sizes: ['XS','S','M','L','XL','XXL'],
-            slug: "men_raven_lightweight_hoodie",
-            type: 'hoodies',
-            tags: ['hoodie'],
-            title: "Men's Raven Lightweight Hoodie",
-            gender: 'men'
+          street: 'Barrio Sarco',
+          number: '1847',
+          location: 'Cochabamba, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 12, month: 10, year: 1985, tag: 'cumpleaños' },
+        { day: 12, month: 10, year: 2010, tag: 'día del maestro' },
+      ],
+    },
+    {
+      name: 'Demetrio',
+      lastName: 'Arce Velasco',
+      email: 'demetrio.arce@agricultor.com',
+      contacts: [{ callCode: '+591', number: '75123789', tag: 'móvil' }],
+      addresses: [
+        {
+          street: 'Comunidad Achocalla',
+          number: 'Parcela 15',
+          location: 'La Paz, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 1, month: 5, year: 1970, tag: 'cumpleaños' },
+        { day: 1, month: 5, year: 2000, tag: 'día del trabajador' },
+      ],
+    },
+    {
+      name: 'Erlinda',
+      lastName: 'Calle Huanaco',
+      email: 'erlinda.calle@tienda.bo',
+      contacts: [
+        { callCode: '+591', number: '68456789', tag: 'móvil' },
+        { callCode: '+591', number: '22456789', tag: 'tienda' },
+      ],
+      addresses: [
+        {
+          street: 'Mercado Rodríguez',
+          number: 'Puesto 47',
+          location: 'La Paz, Bolivia',
+          tag: 'trabajo',
         },
         {
-            description: "Introducing the Tesla Chill Collection. The Chill Pullover Hoodie has a premium, heavyweight exterior and soft fleece interior for comfort in any season. The unisex hoodie features subtle thermoplastic polyurethane Tesla logos across the chest and on the sleeve, a double layer single seam hood and pockets with custom matte zipper pulls. Made from 60% cotton and 40% recycled polyester.",
-            images: [
-                '1740051-00-A_0_2000.jpg',
-                '1740051-00-A_1.jpg',
-            ],
-            stock: 10,
-            price: 130,
-            sizes: ['XS','S','M','L','XL','XXL'],
-            slug: "chill_pullover_hoodie",
-            type: 'hoodies',
-            tags: ['hoodie'],
-            title: "Chill Pullover Hoodie",
-            gender: 'unisex'
+          street: 'Calle Tumusla',
+          number: '456',
+          location: 'La Paz, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 24, month: 6, year: 1982, tag: 'cumpleaños' },
+        { day: 24, month: 6, year: 2005, tag: 'día de san juan' },
+      ],
+    },
+    {
+      name: 'Fidel',
+      lastName: 'Mamani Chura',
+      email: 'fidel.mamani@transporte.com',
+      contacts: [
+        { callCode: '+591', number: '77789123', tag: 'móvil' },
+        { callCode: '+591', number: '70123789', tag: 'empresa' },
+      ],
+      addresses: [
+        {
+          street: 'Terminal de Buses',
+          number: 'Oficina 8',
+          location: 'La Paz, Bolivia',
+          tag: 'trabajo',
         },
         {
-            description: "Introducing the Tesla Chill Collection. The Men's Chill Full Zip Hoodie has a premium, heavyweight exterior and soft fleece interior for comfort in any season. The hoodie features subtle thermoplastic polyurethane Tesla logos on the left chest and sleeve, a double layer single seam hood and pockets with custom matte zipper pulls. Made from 60% cotton and 40% recycled polyester.",
-            images: [
-                '1741111-00-A_0_2000.jpg',
-                '1741111-00-A_1.jpg',
-            ],
-            stock: 100,
-            price: 85,
-            sizes: ['XS','L','XL','XXL'],
-            slug: "men_chill_full_zip_hoodie",
-            type: 'shirts',
-            tags: ['shirt'],
-            title: "Men's Chill Full Zip Hoodie",
-            gender: 'men'
+          street: 'Av. Tejada Sorzano',
+          number: '2356',
+          location: 'La Paz, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 13, month: 5, year: 1977, tag: 'cumpleaños' },
+        { day: 1, month: 8, year: 2003, tag: 'aniversario empresa' },
+      ],
+    },
+    {
+      name: 'Gracia',
+      lastName: 'Rodríguez Poma',
+      email: 'gracia.rodriguez@enfermera.bo',
+      contacts: [
+        { callCode: '+591', number: '66123456', tag: 'móvil' },
+        { callCode: '+591', number: '44123456', tag: 'hospital' },
+      ],
+      addresses: [
+        {
+          street: 'Hospital Viedma',
+          number: 'Piso 3',
+          location: 'Cochabamba, Bolivia',
+          tag: 'trabajo',
         },
         {
-            description: "Introducing the Tesla Chill Collection. The Men’s Chill Quarter Zip Pullover has a premium, heavyweight exterior and soft fleece interior for comfort in any season. The pullover features subtle thermoplastic polyurethane Tesla logos on the left chest and below the back collar, as well as a custom matte zipper pull. Made from 60% cotton and 40% recycled polyester.",
-            images: [
-                '1740140-00-A_0_2000.jpg',
-                '1740140-00-A_1.jpg',
-            ],
-            stock: 7,
-            price: 85,
-            sizes: ['XS','S','M'],
-            slug: "men_chill_quarter_zip_pullover_-_gray",
-            type: 'shirts',
-            tags: ['shirt'],
-            title: "Men's Chill Quarter Zip Pullover - Gray",
-            gender: 'men'
+          street: 'Barrio Temporal',
+          number: '1567',
+          location: 'Cochabamba, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 8, month: 5, year: 1988, tag: 'cumpleaños' },
+        { day: 12, month: 5, year: 2015, tag: 'día de la enfermera' },
+      ],
+    },
+    {
+      name: 'Hipólito',
+      lastName: 'Vargas Chuquimia',
+      email: 'hipolito.vargas@minero.bo',
+      contacts: [{ callCode: '+591', number: '72456789', tag: 'móvil' }],
+      addresses: [
+        {
+          street: 'Cerro Rico Sector B',
+          number: '789',
+          location: 'Potosí, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 13, month: 8, year: 1973, tag: 'cumpleaños' },
+        { day: 13, month: 8, year: 2000, tag: 'día del minero' },
+      ],
+    },
+    {
+      name: 'Irma',
+      lastName: 'Calcina Quispe',
+      email: 'irma.calcina@secretaria.com',
+      contacts: [
+        { callCode: '+591', number: '65789123', tag: 'móvil' },
+        { callCode: '+591', number: '25789123', tag: 'oficina' },
+      ],
+      addresses: [
+        {
+          street: 'Edificio Multicine',
+          number: 'Piso 12',
+          location: 'La Paz, Bolivia',
+          tag: 'trabajo',
         },
         {
-            description: "Introducing the Tesla Chill Collection. The Men’s Chill Quarter Zip Pullover has a premium, heavyweight exterior and soft fleece interior for comfort in any season. The pullover features subtle thermoplastic polyurethane Tesla logos on the left chest and below the back collar, as well as a custom matte zipper pull. Made from 60% cotton and 40% recycled polyester.",
-            images: [
-                '1740145-00-A_2_2000.jpg',
-                '1740145-00-A_1.jpg',
-            ],
-            stock: 15,
-            price: 85,
-            sizes: ['XS','S','M','L'],
-            slug: "men_chill_quarter_zip_pullover_-_white",
-            type: 'shirts',
-            tags: ['shirt'],
-            title: "Men's Chill Quarter Zip Pullover - White",
-            gender: 'men'
+          street: 'Calle Final Landaeta',
+          number: '2134',
+          location: 'La Paz, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 30, month: 9, year: 1992, tag: 'cumpleaños' },
+        { day: 30, month: 9, year: 2018, tag: 'día de la secretaria' },
+      ],
+    },
+    {
+      name: 'Jacinto',
+      lastName: 'Mendoza Apaza',
+      email: 'jacinto.mendoza@veterinario.bo',
+      contacts: [
+        { callCode: '+591', number: '74789123', tag: 'móvil' },
+        { callCode: '+591', number: '33789123', tag: 'veterinaria' },
+      ],
+      addresses: [
+        {
+          street: 'Av. Doble Vía La Guardia',
+          number: 'Km 8',
+          location: 'Santa Cruz, Bolivia',
+          tag: 'clínica',
         },
         {
-            description: "The Unisex 3D Large Wordmark Pullover Hoodie features soft fleece and an adjustable, jersey-lined hood for comfort and coverage. Designed in a unisex style, the pullover hoodie includes a tone-on-tone 3D silicone-printed wordmark across the chest.",
-            images: [
-                '8529107-00-A_0_2000.jpg',
-                '8529107-00-A_1.jpg',
-            ],
-            stock: 15,
-            price: 70,
-            sizes: ['XS','S','XL','XXL'],
-            slug: "3d_large_wordmark_pullover_hoodie",
-            type: 'hoodies',
-            tags: ['hoodie'],
-            title: "3D Large Wordmark Pullover Hoodie",
-            gender: 'unisex'
+          street: 'Barrio Plan 3000',
+          number: '456',
+          location: 'Santa Cruz, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 16, month: 8, year: 1986, tag: 'cumpleaños' },
+        { day: 4, month: 10, year: 2012, tag: 'día mundial de los animales' },
+      ],
+    },
+    {
+      name: 'Katia',
+      lastName: 'Solares Mamani',
+      email: 'katia.solares@abogada.bo',
+      contacts: [
+        { callCode: '+591', number: '61456789', tag: 'móvil' },
+        { callCode: '+591', number: '46456789', tag: 'estudio' },
+      ],
+      addresses: [
+        {
+          street: 'Calle Hamiraya',
+          number: '234',
+          location: 'Cochabamba, Bolivia',
+          tag: 'estudio',
         },
         {
-            description: "As with the iconic Tesla logo, the Cybertruck Graffiti Hoodie is a classic in the making. Unisex style featuring soft fleece and an adjustable, jersey-lined hood for comfortable coverage.",
-            images: [
-                '7654420-00-A_0_2000.jpg',
-                '7654420-00-A_1_2000.jpg',
-            ],
-            stock: 13,
-            price: 60,
-            sizes: ['XS','S','M','L','XL','XXL'],
-            slug: "cybertruck_graffiti_hoodie",
-            type: 'hoodies',
-            tags: ['hoodie'],
-            title: "Cybertruck Graffiti Hoodie",
-            gender: 'unisex'
+          street: 'Av. Villazón',
+          number: '1678',
+          location: 'Cochabamba, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 3, month: 7, year: 1991, tag: 'cumpleaños' },
+        { day: 3, month: 7, year: 2018, tag: 'graduación derecho' },
+      ],
+    },
+    {
+      name: 'Leopoldo',
+      lastName: 'Choque Condori',
+      email: 'leopoldo.choque@carpintero.com',
+      contacts: [{ callCode: '+591', number: '78123456', tag: 'móvil' }],
+      addresses: [
+        {
+          street: 'Av. 6 de Marzo',
+          number: '567',
+          location: 'El Alto, Bolivia',
+          tag: 'taller',
         },
         {
-            description: "The Relaxed T Logo Hat is a classic silhouette combined with modern details, featuring a 3D T logo and a custom metal buckle closure. The ultrasoft design is flexible and abrasion resistant, while the inner sweatband includes quilted padding for extra comfort and moisture wicking. The visor is fully made from recycled plastic bottles. 100% Cotton.",
-            images: [
-                '1657932-00-A_0_2000.jpg',
-                '1657932-00-A_1.jpg',
-            ],
-            stock: 11,
-            price: 30,
-            sizes: ['XS','S','M','L','XL','XXL'],
-            slug: "relaxed_t_logo_hat",
-            type: 'hats',
-            tags: ['hats'],
-            title: "Relaxed T Logo Hat",
-            gender: 'unisex'
+          street: 'Villa Esperanza',
+          number: '890',
+          location: 'El Alto, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 15, month: 11, year: 1974, tag: 'cumpleaños' },
+        { day: 19, month: 3, year: 2008, tag: 'día del padre' },
+      ],
+    },
+    {
+      name: 'Marlene',
+      lastName: 'Zenteno Miranda',
+      email: 'marlene.zenteno@contadora.bo',
+      contacts: [
+        { callCode: '+591', number: '67123456', tag: 'móvil' },
+        { callCode: '+591', number: '27123456', tag: 'consultorio' },
+      ],
+      addresses: [
+        {
+          street: 'Calle Cochabamba',
+          number: '123',
+          location: 'La Paz, Bolivia',
+          tag: 'consultorio',
         },
         {
-            description: "The Relaxed T Logo Hat is a classic silhouette combined with modern details, featuring a 3D T logo and a custom metal buckle closure. The ultrasoft design is flexible and abrasion resistant, while the inner sweatband includes quilted padding for extra comfort and moisture wicking. The visor is fully made from recycled plastic bottles. 100% Cotton.",
-            images: [
-                '1740417-00-A_0_2000.jpg',
-                '1740417-00-A_1.jpg',
-            ],
-            stock: 13,
-            price: 35,
-            sizes: ['XS','S','M','L','XL','XXL'],
-            slug: "thermal_cuffed_beanie",
-            type: 'hats',
-            tags: ['hats'],
-            title: "Thermal Cuffed Beanie",
-            gender: 'unisex'
+          street: 'Av. Litoral',
+          number: '2456',
+          location: 'La Paz, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 25, month: 5, year: 1989, tag: 'cumpleaños' },
+        { day: 13, month: 7, year: 2015, tag: 'día del contador' },
+      ],
+    },
+    {
+      name: 'Néstor',
+      lastName: 'Peña Villarroel',
+      email: 'nestor.pena@electricista.com',
+      contacts: [
+        { callCode: '+591', number: '76456789', tag: 'móvil' },
+        { callCode: '+591', number: '62456789', tag: 'emergencias' },
+      ],
+      addresses: [
+        {
+          street: 'Av. Petrolera Norte',
+          number: 'Km 3',
+          location: 'Santa Cruz, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 21, month: 6, year: 1981, tag: 'cumpleaños' },
+        { day: 21, month: 6, year: 2021, tag: 'año nuevo aymara' },
+      ],
+    },
+    {
+      name: 'Orfelina',
+      lastName: 'Huanca Mamani',
+      email: 'orfelina.huanca@cocina.bo',
+      contacts: [{ callCode: '+591', number: '64789123', tag: 'móvil' }],
+      addresses: [
+        {
+          street: 'Mercado Central',
+          number: 'Puesto 23',
+          location: 'Sucre, Bolivia',
+          tag: 'trabajo',
         },
         {
-            description: "The Women's Cropped Puffer Jacket features a uniquely cropped silhouette for the perfect, modern style while on the go during the cozy season ahead. The puffer features subtle silicone injected Tesla logos below the back collar and on the right sleeve, custom matte metal zipper pulls and a soft, fleece lined collar. Made from 87% nylon and 13% polyurethane.",
-            images: [
-                '1740535-00-A_0_2000.jpg',
-                '1740535-00-A_1.jpg',
-            ],
-            stock: 85,
-            price: 225,
-            sizes: ['XS','S','M'],
-            slug: "women_cropped_puffer_jacket",
-            type: 'hoodies',
-            tags: ['hoodie'],
-            title: "Women's Cropped Puffer Jacket",
-            gender: 'women'
+          street: 'Barrio San Roque',
+          number: '345',
+          location: 'Sucre, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 7, month: 4, year: 1976, tag: 'cumpleaños' },
+        { day: 7, month: 4, year: 2010, tag: 'día mundial de la salud' },
+      ],
+    },
+    {
+      name: 'Primitivo',
+      lastName: 'Arias Torrez',
+      email: 'primitivo.arias@ganadero.bo',
+      contacts: [
+        { callCode: '+591', number: '73789123', tag: 'móvil' },
+        { callCode: '+591', number: '39789123', tag: 'estancia' },
+      ],
+      addresses: [
+        {
+          street: 'Estancia San Miguel',
+          number: 'Km 25',
+          location: 'Beni, Bolivia',
+          tag: 'trabajo',
         },
         {
-            description: "Introducing the Tesla Chill Collection. The Women's Chill Half Zip Cropped Hoodie has a premium, soft fleece exterior and cropped silhouette for comfort in everyday lifestyle. The hoodie features an elastic hem that gathers at the waist, subtle thermoplastic polyurethane Tesla logos along the hood and on the sleeve, a double layer single seam hood and a custom ring zipper pull. Made from 60% cotton and 40% recycled polyester.",
-            images: [
-                '1740226-00-A_0_2000.jpg',
-                '1740226-00-A_1.jpg',
-            ],
-            stock: 10,
-            price: 130,
-            sizes: ['XS','S','M','XXL'],
-            slug: "women_chill_half_zip_cropped_hoodie",
-            type: 'hoodies',
-            tags: ['hoodie'],
-            title: "Women's Chill Half Zip Cropped Hoodie",
-            gender: 'women'
+          street: 'Barrio El Trompillo',
+          number: '678',
+          location: 'Trinidad, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 29, month: 9, year: 1968, tag: 'cumpleaños' },
+        { day: 29, month: 9, year: 2015, tag: 'día de san miguel' },
+      ],
+    },
+    {
+      name: 'Quintina',
+      lastName: 'Flores Condori',
+      email: 'quintina.flores@textil.com',
+      contacts: [
+        { callCode: '+591', number: '62789123', tag: 'móvil' },
+        { callCode: '+591', number: '42789123', tag: 'fábrica' },
+      ],
+      addresses: [
+        {
+          street: 'Zona Industrial',
+          number: 'Manzano 8',
+          location: 'Cochabamba, Bolivia',
+          tag: 'trabajo',
         },
         {
-            description: "Introducing the Tesla Raven Collection. The Women's Raven Slouchy Crew Sweatshirt has a premium, relaxed silhouette made from a sustainable bamboo cotton blend. The slouchy crew features a subtle thermoplastic polyurethane Tesla wordmark on the left sleeve and a french terry interior for a cozy look and feel in every season. Pair it with your Raven Joggers or favorite on the go fit. Made from 70% bamboo and 30% cotton.",
-            images: [
-                '1740260-00-A_0_2000.jpg',
-                '1740260-00-A_1.jpg',
-            ],
-            stock: 9,
-            price: 110,
-            sizes: ['XS','S','M','L','XL','XXL'],
-            slug: "women_raven_slouchy_crew_sweatshirt",
-            type: 'hoodies',
-            tags: ['hoodie'],
-            title: "Women's Raven Slouchy Crew Sweatshirt",
-            gender: 'women'
+          street: 'Villa San Miguel',
+          number: '1234',
+          location: 'Cochabamba, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 19, month: 3, year: 1983, tag: 'cumpleaños' },
+        { day: 19, month: 3, year: 2019, tag: 'día de san josé' },
+      ],
+    },
+    {
+      name: 'Rufino',
+      lastName: 'Cáceres Quisbert',
+      email: 'rufino.caceres@zapatero.bo',
+      contacts: [{ callCode: '+591', number: '71789123', tag: 'móvil' }],
+      addresses: [
+        {
+          street: 'Calle Max Paredes',
+          number: '789',
+          location: 'La Paz, Bolivia',
+          tag: 'taller',
         },
         {
-            description: "Introducing the Tesla Turbine Collection. Designed for style, comfort and everyday lifestyle, the Women's Turbine Cropped Long Sleeve Tee features a subtle, water-based Tesla wordmark across the chest and our T logo below the back collar. The lightweight material is double-dyed, creating a soft, casual style with a cropped silhouette. Made from 50% cotton and 50%",
-            images: [
-                '1740290-00-A_0_2000.jpg',
-                '1740290-00-A_1.jpg',
-            ],
-            stock: 10,
-            price: 45,
-            sizes: ['XS','S','M','L','XL','XXL'],
-            slug: "women_turbine_cropped_long_sleeve_tee",
-            type: 'shirts',
-            tags: ['shirt'],
-            title: "Women's Turbine Cropped Long Sleeve Tee",
-            gender: 'women'
+          street: 'Villa Copacabana',
+          number: '2345',
+          location: 'La Paz, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 11, month: 8, year: 1979, tag: 'cumpleaños' },
+        { day: 11, month: 8, year: 2007, tag: 'día del zapatero' },
+      ],
+    },
+    {
+      name: 'Sabina',
+      lastName: 'Gutiérrez Alanoca',
+      email: 'sabina.gutierrez@farmacia.bo',
+      contacts: [
+        { callCode: '+591', number: '68789123', tag: 'móvil' },
+        { callCode: '+591', number: '28789123', tag: 'farmacia' },
+      ],
+      addresses: [
+        {
+          street: 'Av. Heroínas',
+          number: '456',
+          location: 'Cochabamba, Bolivia',
+          tag: 'farmacia',
         },
         {
-            description: "ntroducing the Tesla Turbine Collection. Designed for style, comfort and everyday lifestyle, the Women's Turbine Cropped Short Sleeve Tee features a subtle, water-based Tesla wordmark across the chest and our T logo below the back collar. The lightweight material is double-dyed, creating a soft, casual style with a cropped silhouette. Made from 50% cotton and 50% polyester.",
-            images: [
-                '1741441-00-A_0_2000.jpg',
-                '1741441-00-A_1.jpg',
-            ],
-            stock: 0,
-            price: 40,
-            sizes: ['XS','S'],
-            slug: "women_turbine_cropped_short_sleeve_tee",
-            type: 'shirts',
-            tags: ['shirt'],
-            title: "Women's Turbine Cropped Short Sleeve Tee",
-            gender: 'women'
+          street: 'Barrio Mayorazgo',
+          number: '1789',
+          location: 'Cochabamba, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 27, month: 10, year: 1994, tag: 'cumpleaños' },
+        { day: 27, month: 10, year: 2020, tag: 'día del farmacéutico' },
+      ],
+    },
+    {
+      name: 'Teófilo',
+      lastName: 'Miranda Churata',
+      email: 'teofilo.miranda@chofer.com',
+      contacts: [
+        { callCode: '+591', number: '77789123', tag: 'móvil' },
+        { callCode: '+591', number: '37789123', tag: 'radio taxi' },
+      ],
+      addresses: [
+        {
+          street: 'Parada Villa Fátima',
+          number: 'Radio 15',
+          location: 'La Paz, Bolivia',
+          tag: 'trabajo',
         },
         {
-            description: "Designed for style and comfort, the ultrasoft Women's T Logo Short Sleeve Scoop Neck Tee features a tonal 3D silicone-printed T logo on the left chest. Made of 50% Peruvian cotton and 50% Peruvian viscose.",
-            images: [
-                '8765090-00-A_0_2000.jpg',
-                '8765090-00-A_1.jpg',
-            ],
-            stock: 30,
-            price: 35,
-            sizes: ['XS','S','M','L','XL','XXL'],
-            slug: "women_t_logo_short_sleeve_scoop_neck_tee",
-            type: 'shirts',
-            tags: ['shirt'],
-            title: "Women's T Logo Short Sleeve Scoop Neck Tee",
-            gender: 'women'
+          street: 'Calle Illampu',
+          number: '567',
+          location: 'La Paz, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 25, month: 1, year: 1980, tag: 'cumpleaños' },
+        { day: 25, month: 1, year: 2009, tag: 'conversión san pablo' },
+      ],
+    },
+    {
+      name: 'Ubaldina',
+      lastName: 'Condori Vásquez',
+      email: 'ubaldina.condori@limpieza.bo',
+      contacts: [{ callCode: '+591', number: '65789123', tag: 'móvil' }],
+      addresses: [
+        {
+          street: 'Calle Indaburo',
+          number: '890',
+          location: 'La Paz, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 16, month: 5, year: 1985, tag: 'cumpleaños' },
+        { day: 16, month: 5, year: 2012, tag: 'día de san ubaldo' },
+      ],
+    },
+    {
+      name: 'Victoriano',
+      lastName: 'Mamani Choque',
+      email: 'victoriano.mamani@soldador.com',
+      contacts: [
+        { callCode: '+591', number: '74789123', tag: 'móvil' },
+        { callCode: '+591', number: '34789123', tag: 'taller' },
+      ],
+      addresses: [
+        {
+          street: 'Zona Industrial Wilstermann',
+          number: 'Galpón 12',
+          location: 'Cochabamba, Bolivia',
+          tag: 'taller',
         },
         {
-            description: "Designed for style and comfort, the ultrasoft Women's T Logo Long Sleeve Scoop Neck Tee features a tonal 3D silicone-printed T logo on the left chest. Made of 50% Peruvian cotton and 50% Peruvian viscose.",
-            images: [
-                '8765100-00-A_0_2000.jpg',
-                '8765100-00-A_1.jpg',
-            ],
-            stock: 16,
-            price: 40,
-            sizes: ['XS','S','L','XL','XXL'],
-            slug: "women_t_logo_long_sleeve_scoop_neck_tee",
-            type: 'shirts',
-            tags: ['shirt'],
-            title: "Women's T Logo Long Sleeve Scoop Neck Tee",
-            gender: 'women'
+          street: 'Villa Granado',
+          number: '2678',
+          location: 'Cochabamba, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 23, month: 12, year: 1977, tag: 'cumpleaños' },
+        { day: 23, month: 12, year: 2005, tag: 'día de san victoriano' },
+      ],
+    },
+    {
+      name: 'Wanda',
+      lastName: 'Paredes Huanca',
+      email: 'wanda.paredes@peluquera.bo',
+      contacts: [{ callCode: '+591', number: '63789123', tag: 'móvil' }],
+      addresses: [
+        {
+          street: 'Calle Tarija',
+          number: '234',
+          location: 'La Paz, Bolivia',
+          tag: 'salón',
         },
         {
-            description: "Designed for style and comfort, the Women's Small Wordmark Short Sleeve V-Neck Tee features a tonal 3D silicone-printed wordmark on the left chest. Made of 100% Peruvian cotton.",
-            images: [
-                '8765120-00-A_0_2000.jpg',
-                '8765120-00-A_1.jpg',
-            ],
-            stock: 18,
-            price: 35,
-            sizes: ['XS','S','M','L','XL','XXL'],
-            slug: "women_small_wordmark_short_sleeve_v-neck_tee",
-            type: 'shirts',
-            tags: ['shirt'],
-            title: "Women's Small Wordmark Short Sleeve V-Neck Tee",
-            gender: 'women'
+          street: 'Alto Obrajes',
+          number: '3456',
+          location: 'La Paz, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 9, month: 7, year: 1996, tag: 'cumpleaños' },
+        {
+          day: 9,
+          month: 7,
+          year: 2021,
+          tag: 'día de la independencia argentina',
+        },
+      ],
+    },
+    {
+      name: 'Xenón',
+      lastName: 'Callisaya Quispe',
+      email: 'xenon.callisaya@mecanico.com',
+      contacts: [
+        { callCode: '+591', number: '72789123', tag: 'móvil' },
+        { callCode: '+591', number: '32789123', tag: 'taller' },
+      ],
+      addresses: [
+        {
+          street: 'Av. Circunvalación',
+          number: 'Km 7',
+          location: 'Santa Cruz, Bolivia',
+          tag: 'taller',
         },
         {
-            description: "Designed for style and comfort, the Women's Large Wordmark Short Sleeve Crew Neck Tee features a tonal 3D silicone-printed wordmark across the chest. Made of 100% Peruvian pima cotton.",
-            images: [
-                '8765115-00-A_0_2000.jpg',
-                '8765115-00-A_1.jpg',
-            ],
-            stock: 5,
-            price: 35,
-            sizes: ['XL','XXL'],
-            slug: "women_large_wordmark_short_sleeve_crew_neck_tee",
-            type: 'shirts',
-            tags: ['shirt'],
-            title: "Women's Large Wordmark Short Sleeve Crew Neck Tee",
-            gender: 'women'
+          street: 'Barrio Nuevo Palmar',
+          number: '567',
+          location: 'Santa Cruz, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 14, month: 4, year: 1984, tag: 'cumpleaños' },
+        { day: 14, month: 4, year: 2010, tag: 'día de las américas' },
+      ],
+    },
+    {
+      name: 'Yanet',
+      lastName: 'Villca Mamani',
+      email: 'yanet.villca@dentista.bo',
+      contacts: [
+        { callCode: '+591', number: '69789123', tag: 'móvil' },
+        { callCode: '+591', number: '29789123', tag: 'consultorio' },
+      ],
+      addresses: [
+        {
+          street: 'Calle 25 de Mayo',
+          number: '890',
+          location: 'Sucre, Bolivia',
+          tag: 'consultorio',
         },
         {
-            description: "Designed to celebrate Tesla's incredible performance mode, the Plaid Mode Tee features great fit, comfort and style. Made from 100% cotton, it's the next best thing to riding shotgun at the Nürburgring.",
-            images: [
-                '1549275-00-A_0_2000.jpg',
-                '1549275-00-A_1.jpg',
-            ],
-            stock: 16,
-            price: 35,
-            sizes: ['S','M'],
-            slug: "women_plaid_mode_tee",
-            type: 'shirts',
-            tags: ['shirt'],
-            title: "Women's Plaid Mode Tee",
-            gender: 'women'
+          street: 'Barrio Petrolero',
+          number: '1456',
+          location: 'Sucre, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 3, month: 2, year: 1993, tag: 'cumpleaños' },
+        { day: 3, month: 2, year: 2020, tag: 'día mundial contra el cáncer' },
+      ],
+    },
+    {
+      name: 'Zacarías',
+      lastName: 'Apaza Condori',
+      email: 'zacarias.apaza@panadero.bo',
+      contacts: [{ callCode: '+591', number: '76789123', tag: 'móvil' }],
+      addresses: [
+        {
+          street: 'Mercado Villa Fátima',
+          number: 'Local 56',
+          location: 'La Paz, Bolivia',
+          tag: 'panadería',
         },
         {
-            description: "Inspired by our popular home battery, the Tesla Powerwall Tee is made from 100% cotton and features the phrase 'Pure Energy' under our signature logo in the back. Designed for fit, comfort and style, the exclusive tee promotes sustainable energy in any",
-            images: [
-                '9877040-00-A_0_2000.jpg',
-                '9877040-00-A_1.jpg',
-            ],
-            stock: 10,
-            price: 130,
-            sizes: ['XS','S','M','L','XL','XXL'],
-            slug: "women_powerwall_tee",
-            type: 'shirts',
-            tags: ['shirt'],
-            title: "Women’s Powerwall Tee",
-            gender: 'women'
+          street: 'Calle Final Manco Kapac',
+          number: '4567',
+          location: 'La Paz, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 5, month: 11, year: 1972, tag: 'cumpleaños' },
+        { day: 5, month: 11, year: 2008, tag: 'día del panadero' },
+      ],
+    },
+    {
+      name: 'América',
+      lastName: 'Churata Quispe',
+      email: 'america.churata@maestra.edu.bo',
+      contacts: [
+        { callCode: '+591', number: '65123789', tag: 'móvil' },
+        { callCode: '+591', number: '25123789', tag: 'escuela' },
+      ],
+      addresses: [
+        {
+          street: 'Unidad Educativa Simón Bolívar',
+          number: 'Aula 15',
+          location: 'La Paz, Bolivia',
+          tag: 'trabajo',
         },
         {
-            description: "Fully customized and uniquely styled, the Women's Corp Jacket features a silicone-printed 'T' logo on the left chest and prominent Tesla wordmark across the back.",
-            images: [
-                '5645680-00-A_0_2000.jpg',
-                '5645680-00-A_3.jpg',
-            ],
-            stock: 3,
-            price: 90,
-            sizes: ['M','L','XL','XXL'],
-            slug: "women_corp_jacket",
-            type: 'shirts',
-            tags: ['shirt'],
-            title: "Women's Corp Jacket",
-            gender: 'women'
+          street: 'Calle Almirante Grau',
+          number: '2789',
+          location: 'La Paz, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 12, month: 10, year: 1987, tag: 'cumpleaños' },
+        { day: 12, month: 10, year: 1492, tag: 'descubrimiento de américa' },
+      ],
+    },
+    {
+      name: 'Benedicto',
+      lastName: 'Limachi Torrez',
+      email: 'benedicto.limachi@jardinero.com',
+      contacts: [{ callCode: '+591', number: '74123789', tag: 'móvil' }],
+      addresses: [
+        {
+          street: 'Parque Urbano Central',
+          number: 'Sector Norte',
+          location: 'Cochabamba, Bolivia',
+          tag: 'trabajo',
         },
         {
-            description: "Introducing the Tesla Raven Collection. The Women's Raven Joggers have a premium, relaxed silhouette made from a sustainable bamboo cotton blend. The joggers feature a subtle thermoplastic polyurethane Tesla wordmark and T logo and a french terry interior for a cozy look and feel in every season. Pair them with your Raven Slouchy Crew Sweatshirt, Raven Lightweight Zip Up Jacket or other favorite on the go fit. Made from 70% bamboo and 30% cotton.",
-            images: [
-                '1740270-00-A_0_2000.jpg',
-                '1740270-00-A_1.jpg',
-            ],
-            stock: 162,
-            price: 100,
-            sizes: ['XS','S','M','L','XL','XXL'],
-            slug: "women_raven_joggers",
-            type: 'shirts',
-            tags: ['shirt'],
-            title: "Women's Raven Joggers",
-            gender: 'women'
+          street: 'Villa Bush',
+          number: '3890',
+          location: 'Cochabamba, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 11, month: 7, year: 1978, tag: 'cumpleaños' },
+        { day: 11, month: 7, year: 2006, tag: 'día de san benedicto' },
+      ],
+    },
+    {
+      name: 'Celestina',
+      lastName: 'Poma Vásquez',
+      email: 'celestina.poma@costurera.bo',
+      contacts: [
+        { callCode: '+591', number: '63123789', tag: 'móvil' },
+        { callCode: '+591', number: '23123789', tag: 'taller' },
+      ],
+      addresses: [
+        {
+          street: 'Calle Loayza',
+          number: '567',
+          location: 'La Paz, Bolivia',
+          tag: 'taller',
         },
         {
-            description: "Designed for fit, comfort and style, the Kids Cybertruck Graffiti Long Sleeve Tee features a water-based Cybertruck graffiti wordmark across the chest, a Tesla wordmark down the left arm and our signature T logo on the back collar. Made from 50% cotton and 50% polyester.",
-            images: [
-                '1742694-00-A_1_2000.jpg',
-                '1742694-00-A_3.jpg',
-            ],
-            stock: 10,
-            price: 30,
-            sizes: ['XS','S','M'],
-            slug: "kids_cybertruck_long_sleeve_tee",
-            type: 'shirts',
-            tags: ['shirt'],
-            title: "Kids Cybertruck Long Sleeve Tee",
-            gender: 'kid'
+          street: 'Zona Sur Calacoto',
+          number: '4567',
+          location: 'La Paz, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 19, month: 5, year: 1990, tag: 'cumpleaños' },
+        { day: 19, month: 5, year: 2017, tag: 'día de santa celestina' },
+      ],
+    },
+    {
+      name: 'Doroteo',
+      lastName: 'Velasco Mamani',
+      email: 'doroteo.velasco@albañil.com',
+      contacts: [
+        { callCode: '+591', number: '72123789', tag: 'móvil' },
+        { callCode: '+591', number: '32123789', tag: 'obra' },
+      ],
+      addresses: [
+        {
+          street: 'Villa 1ro de Mayo',
+          number: '1234',
+          location: 'El Alto, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 6, month: 6, year: 1975, tag: 'cumpleaños' },
+        { day: 6, month: 6, year: 2003, tag: 'día de san doroteo' },
+      ],
+    },
+    {
+      name: 'Eustaquia',
+      lastName: 'Condori Flores',
+      email: 'eustaquia.condori@bordadora.bo',
+      contacts: [{ callCode: '+591', number: '69123789', tag: 'móvil' }],
+      addresses: [
+        {
+          street: 'Calle Graneros',
+          number: '890',
+          location: 'La Paz, Bolivia',
+          tag: 'taller',
         },
         {
-            description: "The Kids Scribble T Logo Tee is made from 100% Peruvian cotton and features a Tesla T sketched logo for every young artist to wear.",
-            images: [
-                '8529312-00-A_0_2000.jpg',
-                '8529312-00-A_1.jpg',
-            ],
-            stock: 0,
-            price: 25,
-            sizes: ['XS','S','M'],
-            slug: "kids_scribble_t_logo_tee",
-            type: 'shirts',
-            tags: ['shirt'],
-            title: "Kids Scribble T Logo Tee",
-            gender: 'kid'
+          street: 'Villa Armonía',
+          number: '5678',
+          location: 'La Paz, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 20, month: 9, year: 1986, tag: 'cumpleaños' },
+        { day: 20, month: 9, year: 2014, tag: 'día de santa eustaquia' },
+      ],
+    },
+    {
+      name: 'Florencio',
+      lastName: 'Huanca Velasco',
+      email: 'florencio.huanca@pescador.bo',
+      contacts: [{ callCode: '+591', number: '76123789', tag: 'móvil' }],
+      addresses: [
+        {
+          street: 'Orilla Lago Titicaca',
+          number: 'Muelle 12',
+          location: 'Copacabana, Bolivia',
+          tag: 'trabajo',
         },
         {
-            description: "The Kids Cybertruck Tee features the iconic Cybertruck graffiti wordmark and is made from 100% Peruvian cotton for maximum comfort.",
-            images: [
-                '8529342-00-A_0_2000.jpg',
-                '8529342-00-A_1.jpg',
-            ],
-            stock: 10,
-            price: 25,
-            sizes: ['XS','S','M'],
-            slug: "kids_cybertruck_tee",
-            type: 'shirts',
-            tags: ['shirt'],
-            title: "Kids Cybertruck Tee",
-            gender: 'kid'
+          street: 'Pueblo Copacabana',
+          number: '234',
+          location: 'Copacabana, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 4, month: 12, year: 1971, tag: 'cumpleaños' },
+        { day: 4, month: 12, year: 2009, tag: 'día de san florencio' },
+      ],
+    },
+    {
+      name: 'Genara',
+      lastName: 'Quisbert Chura',
+      email: 'genara.quisbert@artesana.bo',
+      contacts: [{ callCode: '+591', number: '65123789', tag: 'móvil' }],
+      addresses: [
+        {
+          street: 'Mercado Witches',
+          number: 'Puesto 78',
+          location: 'La Paz, Bolivia',
+          tag: 'trabajo',
         },
         {
-            description: "The refreshed Kids Racing Stripe Tee is made from 100% Peruvian cotton, featuring a newly enhanced racing stripe with a brushed Tesla wordmark that's perfect for any speed racer.",
-            images: [
-                '8529354-00-A_0_2000.jpg',
-                '8529354-00-A_1.jpg',
-            ],
-            stock: 10,
-            price: 30,
-            sizes: ['XS','S','M'],
-            slug: "kids_racing_stripe_tee",
-            type: 'shirts',
-            tags: ['shirt'],
-            title: "Kids Racing Stripe Tee",
-            gender: 'kid'
+          street: 'Calle Santa Cruz',
+          number: '6789',
+          location: 'La Paz, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 3, month: 1, year: 1988, tag: 'cumpleaños' },
+        { day: 3, month: 1, year: 2016, tag: 'día de santa genara' },
+      ],
+    },
+    {
+      name: 'Hilario',
+      lastName: 'Torrez Alanoca',
+      email: 'hilario.torrez@músico.bo',
+      contacts: [
+        { callCode: '+591', number: '74123789', tag: 'móvil' },
+        { callCode: '+591', number: '34123789', tag: 'estudio' },
+      ],
+      addresses: [
+        {
+          street: 'Casa de la Cultura',
+          number: 'Sala 5',
+          location: 'Cochabamba, Bolivia',
+          tag: 'estudio',
         },
         {
-            description: "Designed for fit, comfort and style, the Tesla T Logo Tee is made from 100% Peruvian cotton and features a silicone-printed T Logo on the left chest.",
-            images: [
-                '7652465-00-A_0_2000.jpg',
-                '7652465-00-A_1.jpg',
-            ],
-            stock: 10,
-            price: 30,
-            sizes: ['XS','S','M'],
-            slug: "kids_3d_t_logo_tee",
-            type: 'shirts',
-            tags: ['shirt'],
-            title: "Kids 3D T Logo Tee",
-            gender: 'kid'
+          street: 'Villa Coronilla',
+          number: '7890',
+          location: 'Cochabamba, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 13, month: 1, year: 1989, tag: 'cumpleaños' },
+        { day: 13, month: 1, year: 2018, tag: 'día de san hilario' },
+      ],
+    },
+    {
+      name: 'Ignacia',
+      lastName: 'Miranda Quispe',
+      email: 'ignacia.miranda@partera.bo',
+      contacts: [{ callCode: '+591', number: '63123789', tag: 'móvil' }],
+      addresses: [
+        {
+          street: 'Centro de Salud Temporal',
+          number: 'Consulta 3',
+          location: 'Cochabamba, Bolivia',
+          tag: 'trabajo',
         },
         {
-            description: "The checkered tee is made from long grain, GMO free Peruvian cotton. Peru is the only country in the world where cotton is picked by hand on a large scale. The 4,500-year-old tradition prevents damage to the fiber during the picking process and removes the need to use chemicals to open the cotton plants before harvest. This environmentally friendly process results in cotton that is soft, strong, and lustrous – and the tee will get even softer with every wash.",
-            images: [
-                '100042307_0_2000.jpg',
-                '100042307_alt_2000.jpg',
-            ],
-            stock: 10,
-            price: 30,
-            sizes: ['XS','S','M'],
-            slug: "kids_checkered_tee",
-            type: 'shirts',
-            tags: ['shirt'],
-            title: "Kids Checkered Tee",
-            gender: 'kid'
+          street: 'Villa Sebastián Pagador',
+          number: '8901',
+          location: 'Cochabamba, Bolivia',
+          tag: 'casa',
+        },
+      ],
+      importantDates: [
+        { day: 31, month: 7, year: 1983, tag: 'cumpleaños' },
+        { day: 31, month: 7, year: 2011, tag: 'día de san ignacio' },
+      ],
+    },
+    {
+      name: 'Justiniano',
+      lastName: 'Calle Huanca',
+      email: 'justiniano.calle@guardia.bo',
+      contacts: [
+        { callCode: '+591', number: '72123789', tag: 'móvil' },
+        { callCode: '+591', number: '32123789', tag: 'cuartel' },
+      ],
+      addresses: [
+        {
+          street: 'Regimiento Colorados',
+          number: 'Cuartel 7',
+          location: 'La Paz, Bolivia',
+          tag: 'trabajo',
         },
         {
-            description: "For the future space traveler with discerning taste, a soft, cotton onesie with snap closure bottom. Clear labeling provided in case of contact with a new spacefaring civilization. 100% Cotton. Made in Peru",
-            images: [
-                '1473809-00-A_1_2000.jpg',
-                '1473809-00-A_alt.jpg',
-            ],
-            stock: 16,
-            price: 25,
-            sizes: ['XS','S'],
-            slug: "made_on_earth_by_humans_onesie",
-            type: 'shirts',
-            tags: ['shirt'],
-            title: "Made on Earth by Humans Onesie",
-            gender: 'kid'
+          street: 'Villa San Antonio',
+          number: '9012',
+          location: 'La Paz, Bolivia',
+          tag: 'casa',
         },
-        {
-            description: "The Kids Scribble T Logo Onesie is made from 100% Peruvian cotton and features a Tesla T sketched logo for every little artist to wear.",
-            images: [
-                '8529387-00-A_0_2000.jpg',
-                '8529387-00-A_1.jpg',
-            ],
-            stock: 0,
-            price: 30,
-            sizes: ['XS','S'],
-            slug: "scribble_t_logo_onesie",
-            type: 'shirts',
-            tags: ['shirt'],
-            title: "Scribble T Logo Onesie",
-            gender: 'kid'
-        },
-        {
-            description: "Show your commitment to sustainable energy with this cheeky onesie for your young one. Note: Does not prevent emissions. 100% Cotton. Made in Peru.",
-            images: [
-                '1473834-00-A_2_2000.jpg',
-                '1473829-00-A_2_2000.jpg',
-            ],
-            stock: 10,
-            price: 30,
-            sizes: ['XS','S'],
-            slug: "zero_emissions_(almost)_onesie",
-            type: 'shirts',
-            tags: ['shirt'],
-            title: "Zero Emissions (Almost) Onesie",
-            gender: 'kid'
-        },
-        {
-            description: "Wear your Kids Cyberquad Bomber Jacket during your adventures on Cyberquad for Kids. The bomber jacket features a graffiti-style illustration of our Cyberquad silhouette and wordmark. With three zippered pockets and our signature T logo and Tesla wordmark printed along the sleeves, Kids Cyberquad Bomber Jacket is perfect for wherever the trail takes you. Made from 60% cotton and 40% polyester.",
-            images: [
-                '1742702-00-A_0_2000.jpg',
-                '1742702-00-A_1.jpg',
-            ],
-            stock: 10,
-            price: 65,
-            sizes: ['XS','S','M'],
-            slug: "kids_cyberquad_bomber_jacket",
-            type: 'shirts',
-            tags: ['shirt'],
-            title: "Kids Cyberquad Bomber Jacket",
-            gender: 'kid'
-        },
-        {
-            description: "Cruise the playground in style with the Kids Corp Jacket. Modeled after the original Tesla Corp Jacket, the Kids Corp Jacket features the same understated style and high-quality materials but at a pint-sized scale.",
-            images: [
-                '1506211-00-A_0_2000.jpg',
-                '1506211-00-A_1_2000.jpg',
-            ],
-            stock: 10,
-            price: 30,
-            sizes: ['XS','S','M'],
-            slug: "kids_corp_jacket",
-            type: 'shirts',
-            tags: ['shirt'],
-            title: "Kids Corp Jacket",
-            gender: 'kid'
-        },
-    ]
-}
+      ],
+      importantDates: [
+        { day: 1, month: 6, year: 1980, tag: 'cumpleaños' },
+        { day: 1, month: 6, year: 2008, tag: 'día de san justiniano' },
+      ],
+    },
+  ],
+};
