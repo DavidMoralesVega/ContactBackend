@@ -20,7 +20,7 @@ async function bootstrap() {
   );
 
   // Create necessary directories
-  const staticDirs = ['./static', './static/products', './static/people'];
+  const staticDirs = ['./static', './static/people'];
   staticDirs.forEach((dir) => {
     if (!existsSync(dir)) {
       mkdirSync(dir, { recursive: true });

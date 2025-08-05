@@ -33,45 +33,6 @@ export class FilesController {
     private readonly configService: ConfigService,
   ) {}
 
-  @Get('product/:imageName')
-  @ApiOperation({
-    summary: '🖼️ Get product image',
-    description:
-      'Retrieves a product image by filename. Returns the actual image file.',
-  })
-  @ApiParam({
-    name: 'imageName',
-    description: 'Image filename with extension',
-    example: 'uuid-filename.jpg',
-  })
-  @ApiResponse({
-    status: 200,
-    description: '✅ Image file returned successfully',
-    content: {
-      'image/jpeg': { schema: { type: 'string', format: 'binary' } },
-      'image/png': { schema: { type: 'string', format: 'binary' } },
-      'image/gif': { schema: { type: 'string', format: 'binary' } },
-    },
-  })
-  @ApiResponse({
-    status: 400,
-    description: '❌ Image not found',
-    schema: {
-      example: {
-        statusCode: 400,
-        message: 'No product found with image filename.jpg',
-        error: 'Bad Request',
-      },
-    },
-  })
-  findProductImage(
-    @Res() res: Response,
-    @Param('imageName') imageName: string,
-  ) {
-    const path = this.filesService.getStaticProductImage(imageName);
-    res.sendFile(path);
-  }
-
   @Get('people/:imageName')
   @ApiOperation({
     summary: '👤 Get people photo',
@@ -106,64 +67,6 @@ export class FilesController {
   findPeopleImage(@Res() res: Response, @Param('imageName') imageName: string) {
     const path = this.filesService.getStaticPeopleImage(imageName);
     res.sendFile(path);
-  }
-
-  @Post('product')
-  @ApiOperation({
-    summary: '📤 Upload product image',
-    description:
-      'Uploads an image file for a product. Accepts JPG, JPEG, PNG, and GIF formats. Returns the secure URL for the uploaded image.',
-  })
-  @ApiConsumes('multipart/form-data')
-  @ApiBody({
-    description: 'Image file to upload',
-    schema: {
-      type: 'object',
-      properties: {
-        file: {
-          type: 'string',
-          format: 'binary',
-          description: 'Image file (JPG, JPEG, PNG, GIF)',
-        },
-      },
-    },
-  })
-  @ApiResponse({
-    status: 201,
-    description: '✅ Image uploaded successfully',
-    schema: {
-      example: {
-        secureUrl: 'http://localhost:3000/api/files/product/uuid-filename.jpg',
-      },
-    },
-  })
-  @ApiResponse({
-    status: 400,
-    description: '❌ Bad request - Invalid file or file type not supported',
-    schema: {
-      example: {
-        statusCode: 400,
-        message: 'Make sure that the file is an image',
-        error: 'Bad Request',
-      },
-    },
-  })
-  @UseInterceptors(
-    FileInterceptor('file', {
-      fileFilter: fileFilter,
-      storage: diskStorage({
-        destination: './static/products',
-        filename: fileNamer,
-      }),
-    }),
-  )
-  uploadProductImage(@UploadedFile() file: Express.Multer.File) {
-    if (!file) {
-      throw new BadRequestException('Make sure that the file is an image');
-    }
-
-    const secureUrl = `${this.configService.get('HOST_API')}/files/product/${file.filename}`;
-    return { secureUrl };
   }
 
   @Post('people')

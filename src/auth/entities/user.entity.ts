@@ -6,8 +6,8 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Product } from '../../products/entities';
 import { People } from 'src/people/entities';
+import { ApiHideProperty } from '@nestjs/swagger';
 
 @Entity('users')
 export class User {
@@ -38,9 +38,7 @@ export class User {
   })
   roles: string[];
 
-  @OneToMany(() => Product, (product) => product.user)
-  product: Product;
-
+  @ApiHideProperty()
   @OneToMany(() => People, (people) => people.user)
   people: People[];
 

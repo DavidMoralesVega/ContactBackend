@@ -7,7 +7,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
 import { User } from '../../auth/entities/user.entity';
 import { Contact } from './contact.entity';
 import { Address } from './address.entity';
@@ -82,9 +82,7 @@ export class People {
   })
   importantDates: ImportantDate[];
 
-  @ApiProperty({
-    description: 'User who created this contact',
-  })
+  @ApiHideProperty()
   @ManyToOne(() => User, (user) => user.people, { eager: true })
   user: User;
 
