@@ -60,7 +60,7 @@ export class People {
   })
   @OneToMany(() => Contact, (contact) => contact.people, {
     cascade: true,
-    eager: true,
+    lazy: true,
   })
   contacts: Contact[];
 
@@ -69,7 +69,7 @@ export class People {
   })
   @OneToMany(() => Address, (address) => address.people, {
     cascade: true,
-    eager: true,
+    lazy: true,
   })
   addresses: Address[];
 
@@ -78,12 +78,12 @@ export class People {
   })
   @OneToMany(() => ImportantDate, (importantDate) => importantDate.people, {
     cascade: true,
-    eager: true,
+    lazy: true,
   })
   importantDates: ImportantDate[];
 
   @ApiHideProperty()
-  @ManyToOne(() => User, (user) => user.people, { eager: true })
+  @ManyToOne(() => User, (user) => user.people, { lazy: true })
   user: User;
 
   @ApiProperty({

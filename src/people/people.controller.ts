@@ -160,6 +160,8 @@ export class PeopleController {
     description: '🔒 Unauthorized - Invalid or missing token',
   })
   findAll(@Query() paginationDto: PeoplePaginationDto, @GetUser() user: User) {
+    console.log('Fetching all contacts with pagination:', user);
+
     return this.peopleService.findAll(paginationDto, user);
   }
 

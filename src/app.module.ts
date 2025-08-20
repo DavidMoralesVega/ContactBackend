@@ -22,6 +22,7 @@ import { PeopleModule } from './people/people.module';
       password: process.env.DB_PASSWORD,
       autoLoadEntities: true,
       synchronize: true,
+      logging: true,
     }),
 
     ServeStaticModule.forRoot({
