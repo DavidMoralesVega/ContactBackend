@@ -60,11 +60,16 @@ export class PeopleService {
 
       await this.peopleRepository.save(people);
 
-      // Cargar la entidad completa con relaciones
-      return await this.peopleRepository.findOne({
+      const savedPeople = await this.peopleRepository.findOne({
         where: { id: people.id },
-        relations: ['contacts', 'addresses', 'importantDates'],
+        relations: {
+          contacts: true,
+          addresses: true,
+          importantDates: true,
+        },
       });
+
+      return savedPeople;
     } catch (error) {
       this.handleDBExceptions(error);
     }
@@ -86,7 +91,11 @@ export class PeopleService {
         isTrashed: false,
         isDeleted: false,
       },
-      relations: ['contacts', 'addresses', 'importantDates'],
+      relations: {
+        contacts: true,
+        addresses: true,
+        importantDates: true,
+      },
       order: {
         [sortBy]: sortOrder,
       },
@@ -111,7 +120,11 @@ export class PeopleService {
         isTrashed: true,
         isDeleted: false,
       },
-      relations: ['contacts', 'addresses', 'importantDates'],
+      relations: {
+        contacts: true,
+        addresses: true,
+        importantDates: true,
+      },
       order: {
         [sortBy]: sortOrder,
       },
@@ -130,7 +143,11 @@ export class PeopleService {
           user: { id: user.id },
           isDeleted: false,
         },
-        relations: ['contacts', 'addresses', 'importantDates'],
+        relations: {
+          contacts: true,
+          addresses: true,
+          importantDates: true,
+        },
       });
     } else {
       const queryBuilder = this.peopleRepository.createQueryBuilder('people');
@@ -160,7 +177,6 @@ export class PeopleService {
     const { contacts, addresses, importantDates, ...toUpdate } =
       updatePeopleDto;
 
-    // First, verify the person exists and belongs to the user
     const existingPeople = await this.findOne(id, user);
 
     const queryRunner = this.dataSource.createQueryRunner();
@@ -168,7 +184,6 @@ export class PeopleService {
     await queryRunner.startTransaction();
 
     try {
-      // Update main people data
       const people = await queryRunner.manager.preload(People, {
         id,
         ...toUpdate,
@@ -181,7 +196,6 @@ export class PeopleService {
 
       await queryRunner.manager.save(people);
 
-      // Update related entities if provided
       if (contacts !== undefined) {
         await queryRunner.manager.delete(Contact, { people: { id } });
         if (contacts.length > 0) {
@@ -214,10 +228,13 @@ export class PeopleService {
 
       await queryRunner.commitTransaction();
 
-      // Return the updated entity with relations
       return await this.peopleRepository.findOne({
         where: { id },
-        relations: ['contacts', 'addresses', 'importantDates'],
+        relations: {
+          contacts: true,
+          addresses: true,
+          importantDates: true,
+        },
       });
     } catch (error) {
       await queryRunner.rollbackTransaction();
