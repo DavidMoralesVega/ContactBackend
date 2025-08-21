@@ -59,7 +59,12 @@ export class PeopleService {
       });
 
       await this.peopleRepository.save(people);
-      return people;
+
+      // Cargar la entidad completa con relaciones
+      return await this.peopleRepository.findOne({
+        where: { id: people.id },
+        relations: ['contacts', 'addresses', 'importantDates'],
+      });
     } catch (error) {
       this.handleDBExceptions(error);
     }
@@ -167,40 +172,53 @@ export class PeopleService {
       const people = await queryRunner.manager.preload(People, {
         id,
         ...toUpdate,
+        user,
       });
 
       if (!people) {
         throw new NotFoundException(`Person with id: ${id} not found`);
       }
 
-      // Update related entities if provided
-      if (contacts) {
-        await queryRunner.manager.delete(Contact, { people: { id } });
-        people.contacts = contacts.map((contact) =>
-          this.contactRepository.create(contact),
-        );
-      }
-
-      if (addresses) {
-        await queryRunner.manager.delete(Address, { people: { id } });
-        people.addresses = addresses.map((address) =>
-          this.addressRepository.create(address),
-        );
-      }
-
-      if (importantDates) {
-        await queryRunner.manager.delete(ImportantDate, { people: { id } });
-        people.importantDates = importantDates.map((date) =>
-          this.importantDateRepository.create(date),
-        );
-      }
-
-      people.user = user;
       await queryRunner.manager.save(people);
+
+      // Update related entities if provided
+      if (contacts !== undefined) {
+        await queryRunner.manager.delete(Contact, { people: { id } });
+        if (contacts.length > 0) {
+          const contactEntities = contacts.map((contact) =>
+            this.contactRepository.create({ ...contact, people }),
+          );
+          await queryRunner.manager.save(contactEntities);
+        }
+      }
+
+      if (addresses !== undefined) {
+        await queryRunner.manager.delete(Address, { people: { id } });
+        if (addresses.length > 0) {
+          const addressEntities = addresses.map((address) =>
+            this.addressRepository.create({ ...address, people }),
+          );
+          await queryRunner.manager.save(addressEntities);
+        }
+      }
+
+      if (importantDates !== undefined) {
+        await queryRunner.manager.delete(ImportantDate, { people: { id } });
+        if (importantDates.length > 0) {
+          const dateEntities = importantDates.map((date) =>
+            this.importantDateRepository.create({ ...date, people }),
+          );
+          await queryRunner.manager.save(dateEntities);
+        }
+      }
 
       await queryRunner.commitTransaction();
 
-      return this.findOne(id, user);
+      // Return the updated entity with relations
+      return await this.peopleRepository.findOne({
+        where: { id },
+        relations: ['contacts', 'addresses', 'importantDates'],
+      });
     } catch (error) {
       await queryRunner.rollbackTransaction();
       this.handleDBExceptions(error);
